@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\SettingController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('login');
 });
 Route::get('/secuenciacion', function () {
     return view('secuenciacion');
@@ -496,4 +496,13 @@ Route::prefix('pending_patient')->name('pending_patient.')->middleware('auth')->
    Route::get('/{pending_patient}', 'PendingPatientController@destroy')->name('destroy');
    Route::get('/export_excel_by_status/{selectedStatus}','PendingPatientController@exportExcelByStatus')->name('export_excel_by_status')->middleware('auth');
 
+});
+
+//settings module
+Route::prefix('/settings')->as('settings.')->middleware(['auth'])->group(function () {
+    Route::get('/', [SettingController::class, 'index'])->name('index');
+    Route::get('/create', [SettingController::class, 'create'])->name('create');
+    Route::post('/store', [SettingController::class, 'store'])->name('store');
+    Route::post('/store_values', [SettingController::class, 'storeValues'])->name('store.values');
+    Route::delete('/{setting}/destroy', [SettingController::class, 'destroy'])->name('destroy');
 });
