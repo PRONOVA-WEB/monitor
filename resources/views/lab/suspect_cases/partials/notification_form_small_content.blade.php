@@ -1,5 +1,3 @@
-<?php use Milon\Barcode\DNS1D; ?>
-
 <div class="row">
     <div class="col-md-2">
         <img src="{{ asset('/images/256px_logo_isp.png') }}" class="img-fluid" alt="Instituto de Salud Pública de Chile"
@@ -8,17 +6,16 @@
     <div class="col-md-7">
         <h2 class="mb-3">Formulario envío de muestras
             2019-nCoV </h2>
-            
+
         <h4> {{ "PNTM: $suspectCase->minsal_ws_id" }} </h4>
-            
+
         <input type="button" class="d-print-none" value="Imprimir"
                                 onclick="javascript:window.print()">
-        
 
     </div>
     <div class="col-md-3">
         <div style="text-align: center">
-                            <img src="data:image/png;base64, <?php echo (new DNS1D)->getBarcodePNG($suspectCase->id, "C128", 2, 40); ?> " />
+            <img src="data:image/png;base64, <?php echo DNS1D::getBarcodePNG($suspectCase->id, "C39", 2, 40); ?> " />
             <h3 style="margin-top: 30px" class="mb3">Ingreso: {{$suspectCase->id}}</h3>
         </div>
 

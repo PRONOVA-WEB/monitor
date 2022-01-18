@@ -284,7 +284,6 @@
 {{--                    </select>--}}
 {{--                </fieldset>--}}
 
-
                 <fieldset class="form-group col-12 col-md-3">
                     <label for="for_file">Archivo</label>
                     <div class="custom-file">
@@ -321,7 +320,7 @@
                 <select name="candidate_for_sq" id="for_candidate_for_sq" class="form-control">
                     <option value=""></option>
                     <option value="1" {{ ($suspectCase->candidate_for_sq == 1) ? 'selected' : '' }}>Si</option>
-                    <option value="0" {{ ($suspectCase->candidate_for_sq === 0) ? 'selected' : '' }}>No</option>                    
+                    <option value="0" {{ ($suspectCase->candidate_for_sq === 0) ? 'selected' : '' }}>No</option>
                 </select>
             </fieldset>
             </div>
