@@ -25,6 +25,7 @@
     <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
     {{-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> --}}
     <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
+    @stack('css')
     @yield('custom_js_head')
 
     <style media="screen">
@@ -55,7 +56,7 @@
                         @yield('content')
                     </div>
                 </div>
-                <footer class="sticky-footer bg-white">
+                <footer class="sticky-footer bg-white d-print-none">
                     <div class="container my-auto">
                         <div class="copyright text-center my-auto">
                             <span>Copyright &copy; {{ settings('site.title') }} {{ date('Y') }}</span>

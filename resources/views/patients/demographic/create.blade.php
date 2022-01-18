@@ -88,7 +88,7 @@
     </fieldset>
 
     <fieldset class="form-group col-12 col-md-5">
-        <label for="for_email">email</label>
+        <label for="for_email">Email</label>
         <input type="email" class="form-control" name="email" id="for_email" value="{{old('email')}}" style="text-transform: lowercase;">
     </fieldset>
 

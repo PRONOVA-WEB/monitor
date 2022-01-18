@@ -1173,17 +1173,16 @@ class SuspectCaseReportController extends Controller
         //                   ->orderBy('created_at','DESC')->get();
 
         $suspectCases = SuspectCase::whereBetween('pcr_sars_cov_2_at', [$from, $to])
-            ->where('pcr_sars_cov_2', 'like', 'positive')
-            ->where('file', true)
+            //->where('pcr_sars_cov_2', 'like', 'positive')
+            //->where('file', true)
             ->orderBy('created_at', 'DESC')->get();
 
+        // $suspectCasesUnap = SuspectCase::whereBetween('created_at', [$from, $to])
+        //     ->where('pcr_sars_cov_2', 'like', 'positive')
+        //     ->whereIn('laboratory_id', auth()->user()->laboratory)
+        //     ->get();
 
-        $suspectCasesUnap = SuspectCase::whereBetween('created_at', [$from, $to])
-            ->where('pcr_sars_cov_2', 'like', 'positive')
-            ->where('laboratory_id', 2)
-            ->get();
-
-        return view('lab.suspect_cases.reports.exams_with_result', compact('suspectCases', 'suspectCasesUnap'));
+        return view('lab.suspect_cases.reports.exams_with_result', compact('suspectCases'));
     }
 
     /**
@@ -1550,8 +1549,8 @@ class SuspectCaseReportController extends Controller
                 //dd($suspectCases);
         }
 
-        $env_communes = array_map('trim',explode(",",env('COMUNAS')));
-        $establishments = Establishment::whereIn('commune_id',$env_communes)->orderBy('name','ASC')->get();
+        // $env_communes = array_map('trim',explode(",",env('COMUNAS')));
+        $establishments = Establishment::whereIn('commune_id',getCommunes())->orderBy('name','ASC')->get();
 
         return view('lab.suspect_cases.reports.cases_with_barcodes', compact('suspectCases', 'establishments', 'selectedEstablishment', 'selectedSampleAt','selectedSampleTo', 'selectedCaseType'));
 

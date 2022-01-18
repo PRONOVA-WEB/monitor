@@ -3,7 +3,7 @@
 @section('title', 'Seguimientos sin eventos')
 
 @section('content')
-<h3 class="mb-3">Pacientes en cuarentena sin seguimiento (ningún evento)</h3>
+<h3 class="mb-3">Pacientes en cuarentena sin seguimiento epidemiológico (ningún evento)</h3>
 <a class="btn btn-outline-success btn-sm mb-3" id="downloadLink" onclick="exportF(this)">Descargar en excel</a>
 
 <table class="table table-sm small" id="tabla_pacientes_sin_seguimiento">

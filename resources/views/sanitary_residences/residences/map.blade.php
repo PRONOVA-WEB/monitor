@@ -2,7 +2,7 @@
 
 @section('title', 'Georeferenciación')
 
-@section('content')  
+@section('content')
     <div id="map" style="width: 100%; height: 650px"></div>
 @endsection
 
@@ -46,7 +46,7 @@
             @else
             icon: {url: "http://maps.google.com/mapfiles/ms/icons/red-dot.png"},
             @endif
-            position: {                
+            position: {
               lat: {{$residencia['latitude'] }},
               lng: {{$residencia['longitude'] }}
             },
@@ -56,17 +56,17 @@
           // position will be available as a google.maps.LatLng object. In this case,
           // we retrieve the marker's position using the
           // google.maps.LatLng.getPosition() method.
-          
+
           var content = "<h5><p align='center'><b>{{$residencia['residenceName']}} </h5></b></p><hr> <p> Habitaciones Totales:{{$residencia['totalRooms']}} (Single:{{$residencia['totalsinglebyresidence'] }} Doble:{{$residencia['totaldoublebyresidence'] }}) </p><p> Habitaciones Ocupadas:{{$residencia['occupiedRooms']}} </p> Pacientes en Residencia:{{$residencia['patients']}} <hr> <p>Habitaciones Disponibles: {{$residencia['availableRooms'] }} ( Single: {{$residencia['single'] }} Doble:{{$residencia['double'] }} )</p>";
           var infowindow = new google.maps.InfoWindow();
 
         //   var infowindow = new google.maps.InfoWindow({
-        
+
         //   });
         //   google.maps.event.addListener(marker, "click", function() {
         //     infowindow.open(exports.map, marker);
         //   });
-          google.maps.event.addListener(marker,'click', (function(marker,content,infowindow){ 
+          google.maps.event.addListener(marker,'click', (function(marker,content,infowindow){
         return function() {
         infowindow.setContent(content);
         infowindow.open(map,marker);
@@ -78,7 +78,7 @@
           @endif
           @endforeach
         }
-        
+
 
         exports.initMap = initMap;
       })((this.window = this.window || {}));

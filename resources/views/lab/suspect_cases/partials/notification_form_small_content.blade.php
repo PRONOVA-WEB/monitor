@@ -15,7 +15,7 @@
     </div>
     <div class="col-md-3">
         <div style="text-align: center">
-            <img src="data:image/png;base64, <?php echo DNS1D::getBarcodePNG($suspectCase->id, "C39", 2, 40); ?> " />
+            <img src="data:image/png;base64, <?php echo DNS1D::getBarcodePNG(strval($suspectCase->id), "C128", 2, 40); ?> " />
             <h3 style="margin-top: 30px" class="mb3">Ingreso: {{$suspectCase->id}}</h3>
         </div>
 

@@ -169,7 +169,7 @@ class TracingController extends Controller
             ->all();
 
         //$establishments = Establishment::whereIn('id', auth()->user()->establishments)->distinct('name')->get();
-        $establishments = auth()->user()->establishments;
+        $establishments =  auth()->user()->establishments;
 
         return view('patients.tracing.mapbyestablishment', compact('patients', 'establishments'));
     }

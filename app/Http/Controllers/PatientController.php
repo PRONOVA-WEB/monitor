@@ -258,7 +258,6 @@ class PatientController extends Controller
                 $q->whereIn('status', ['Ambulatorio', ''])
                     ->OrWhereNULL('status');
             })
-
             ->get();
 
         $data = array();

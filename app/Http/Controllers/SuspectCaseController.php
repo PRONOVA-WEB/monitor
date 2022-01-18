@@ -251,7 +251,7 @@ class SuspectCaseController extends Controller
         $communes = Commune::orderBy('id','ASC')->get();
         $countries = Country::select('name')->orderBy('id', 'ASC')->get();
 
-        $//env_communes = array_map('trim',explode(",",env('COMUNAS')));
+        //$env_communes = array_map('trim',explode(",",env('COMUNAS')));
         $env_communes = getCommunes();
         //$establishments = Establishment::whereIn('commune_id',$env_communes)->where('name','<>','Otros')->orderBy('name','ASC')->get();
 

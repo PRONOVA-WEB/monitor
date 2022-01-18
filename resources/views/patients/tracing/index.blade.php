@@ -9,7 +9,7 @@
             @isset($titulo)
                 <h3 class="mb-3">{{$titulo}}</h3>
             @else
-                <h3 class="mb-3">Seguimiento</h3>
+                <h3 class="mb-3">Seguimiento epidemiológico</h3>
             @endisset
         </div>
         <div class="col-12 col-sm-3" >
@@ -49,7 +49,7 @@
         @if($fecha != $patient->tracing->next_control_at->format('Y-m-d'))
         <tr>
             <td colspan="10" class="table-active">
-                <h5>Siguiente Control: {{ $patient->tracing->next_control_at->format('Y-m-d') }}</h5>
+                <h5>Siguiente Control: {{ $patient->tracing->next_control_at->format('d-m-Y') }}</h5>
             </td>
         </tr>
         @php $fecha = $patient->tracing->next_control_at->format('Y-m-d'); @endphp
@@ -66,12 +66,12 @@
                     @case(1) Indice   @break
                     @case(2) Probable @break
                 @endswitch
-                
-                {!! $patient->tracing->flagrisk !!}            
 
-                
-                
-                
+                {!! $patient->tracing->flagrisk !!}
+
+
+
+
 
             </td>
             <td>

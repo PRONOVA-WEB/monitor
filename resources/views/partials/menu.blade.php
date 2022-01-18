@@ -76,7 +76,7 @@
                 @endcan
                 <hr class="sidebar-divider">
                 @can('Patient: tracing')
-                <a class="collapse-item" href="{{ route('lab.suspect_cases.notificationInbox') }}">Notificación<br> (excepto positivos)</a>
+                <a class="collapse-item" href="{{ route('lab.suspect_cases.notificationInbox') }}">Por notificar<br> (excepto positivos)</a>
                 <a class="collapse-item" href="{{ route('patients.tracings.communes') }}">Seguimiento<br> de mis comunas</a>
                 <a class="collapse-item" href="{{ route('patients.tracings.establishments') }}">Seguimiento<br> de mis establecimientos</a>
                 <a class="collapse-item" href="{{ route('lab.suspect_cases.reports.tracing_minsal') }}">Seguimiento<br> SEREMI</a>

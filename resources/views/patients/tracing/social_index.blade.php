@@ -192,14 +192,14 @@
         // in place of a google.maps.LatLng object.
 
         function initMap() {
-          var mapOptions = {          
-            zoom: 12.7,
+          var mapOptions = {
+            zoom: 9,
             center: {
             lat: {{ env('LATITUD') }},
             lng: {{ env('LONGITUD') }}
             }
           };
-          @foreach($request_types as $request_type) 
+          @foreach($request_types as $request_type)
           exports.map = new google.maps.Map(
             document.getElementById("map_{{ str_replace(" ","_",$request_type->type->name) }}"),
             mapOptions
@@ -211,8 +211,8 @@
           var marker = new google.maps.Marker({
             // The below line is equivalent to writing:
             // position: new google.maps.LatLng(-34.397, 150.644)
-            
-            position: {                
+
+            position: {
               lat: {{$request->tracing->patient->demographic->latitude}},
               lng: {{$request->tracing->patient->demographic->longitude }}
             },
@@ -221,19 +221,19 @@
           // creating the Marker object. Once the Marker object is instantiated, its
           // position will be available as a google.maps.LatLng object. In this case,
           // we retrieve the marker's position using the
-          // google.maps.LatLng.getPosition() method.          
-          
-          
+          // google.maps.LatLng.getPosition() method.
+
+
           var content = "<h6><p align='center'><b>{{ $request->tracing->patient->fullName }} </b></p></h6><hr> <p>Dirección:{{ ($request->tracing->patient->demographic)? $request->tracing->patient->demographic->FullAddress : '' }} </p> <p>Teléfono:{{ ($request->tracing->patient->demographic)? $request->tracing->patient->demographic->FullTelephones : '' }}</p>";
           var infowindow = new google.maps.InfoWindow();
 
         //   var infowindow = new google.maps.InfoWindow({
-        
+
         //   });
         //   google.maps.event.addListener(marker, "click", function() {
         //     infowindow.open(exports.map, marker);
         //   });
-          google.maps.event.addListener(marker,'click', (function(marker,content,infowindow){ 
+          google.maps.event.addListener(marker,'click', (function(marker,content,infowindow){
         return function() {
         infowindow.setContent(content);
         infowindow.open(map,marker);
@@ -244,11 +244,11 @@
           @endforeach
           @endforeach
         }
-        
+
 
         exports.initMap = initMap;
       })((this.window = this.window || {}));
     </script>
-  
+
 
 @endsection

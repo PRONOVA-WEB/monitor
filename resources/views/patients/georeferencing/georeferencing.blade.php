@@ -44,7 +44,7 @@ var map = new H.Map(
     document.getElementById('mapContainer'),
     defaultLayers.vector.normal.map,
     {
-        zoom: 10,
+        zoom: 9,
         center: { lat: {{ env('LATITUD') }}, lng: {{ env('LONGITUD') }} }
     }
 );
