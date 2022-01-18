@@ -132,7 +132,7 @@ class PatientController extends Controller
         $event_types = EventType::all();
         $request_types = RequestType::all();
         //$env_communes = array_map('trim', explode(",", env('COMUNAS')));
-        $env_communes = getCommunnes();
+        $env_communes = getCommunes();
         $establishments = Establishment::whereIn('commune_id', $env_communes)->orderBy('name', 'ASC')->get();
         $symptoms = Symptom::All();
         return view('patients.edit', compact('patient', 'regions', 'communes', 'event_types', 'request_types', 'establishments', 'symptoms', 'countries', 'timeline'));

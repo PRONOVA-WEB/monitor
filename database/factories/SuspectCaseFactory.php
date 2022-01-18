@@ -72,7 +72,7 @@ $factory->define(SuspectCase::class, function (Faker $faker) {
         //'patient_id' => 1,
         //'patient_id' => $patient->id,
         'laboratory_id' => rand(1,3),
-        'establishment_id' => $faker->randomElement(Establishment::whereIn('commune_id', getCommunnes())->pluck('id')->toArray()),
+        'establishment_id' => $faker->randomElement(Establishment::whereIn('commune_id', getCommunes())->pluck('id')->toArray()),
         'user_id' => 1
     ];
 });

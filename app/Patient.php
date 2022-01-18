@@ -197,7 +197,7 @@ class Patient extends Model implements Auditable //Authenticatable
         }
 
         //$communes = array_map('trim',explode(",",env('COMUNAS')));
-        $communes = getCommunnes();
+        $communes = getCommunes();
         $commune_not = array_diff( $communesAllArray, $communes );
 
         $patients = $patients->whereNotIn('demographic.commune_id', $commune_not);

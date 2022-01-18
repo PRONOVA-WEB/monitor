@@ -23,7 +23,7 @@ class UserSeeder extends Seeder
         $user->givePermissionTo(Permission::all());
 
         //añado establecimientos de la regíon metropolitana
-        $establishments = \App\Establishment::whereIn('commune_id',getCommunnes())->pluck('id');
+        $establishments = \App\Establishment::whereIn('commune_id',getCommunes())->pluck('id');
         $user->establishments()->attach($establishments);
     }
 }

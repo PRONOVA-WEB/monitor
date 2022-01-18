@@ -40,7 +40,7 @@ class SuspectCaseReportController extends Controller
 
         /* Obtiene comunas .env */
         //$communes_ids = array_map('trim', explode(",", env('COMUNAS')));
-        $communes_ids = getCommunnes();
+        $communes_ids = getCommunes();
         $communes = Commune::whereIn('id', $communes_ids)->get();
 
         /* Consulta base para las demás consultas de pacientes*/
@@ -391,7 +391,7 @@ class SuspectCaseReportController extends Controller
     {
 
         //$env_communes = array_map('trim', explode(",", env('COMUNAS')));
-        $env_communes = getCommunnes();
+        $env_communes = getCommunes();
         $patients = Patient::whereHas('suspectCases', function ($q) {
             $q->where('pcr_sars_cov_2', 'positive');
         })->whereHas('demographic', function ($q) use ($env_communes) {
@@ -578,7 +578,7 @@ class SuspectCaseReportController extends Controller
 
 
         //$communes_ids = array_map('trim', explode(",", env('COMUNAS')));
-        $communes_ids = getCommunnes();
+        $communes_ids = getCommunes();
         $communes = Commune::whereIn('id', $communes_ids)->get();
 
 
@@ -589,7 +589,7 @@ class SuspectCaseReportController extends Controller
     public function case_tracing_export()
     {
         //$env_communes = array_map('trim', explode(",", env('COMUNAS')));
-        $env_communes = getCommunnes();
+        $env_communes = getCommunes();
         $patients = Patient::whereHas('suspectCases', function ($q) {
             $q->where('pcr_sars_cov_2', 'positive');
         })->whereHas('demographic', function ($q) use ($env_communes) {

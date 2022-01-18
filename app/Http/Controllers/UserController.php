@@ -170,7 +170,7 @@ class UserController extends Controller
         //$dialysiscenters = DialysisCenter::OrderBy('name')->get();
 
         //$env_communes = array_map('trim',explode(",",env('COMUNAS')));
-        $env_communes = getCommunnes();
+        $env_communes = getCommunes();
 
         $establishments = Establishment::whereIn('commune_id',$env_communes)->orderBy('name','ASC')->get();
 

@@ -51,7 +51,7 @@ class ReportBackup extends Command
 
         /* Obtiene comunas .env */
         //$communes_ids = array_map('trim', explode(",", env('COMUNAS')));
-        $communes_ids = getCommunnes();
+        $communes_ids = getCommunes();
         $communes = Commune::whereIn('id', $communes_ids)->get();
 
         /* Valida que existan casos positivos */
