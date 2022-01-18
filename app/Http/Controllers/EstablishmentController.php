@@ -12,7 +12,8 @@ class EstablishmentController extends Controller
     //
     public function index()
     {
-        $communes_ids = array_map('trim', explode(",", env('COMUNAS')));
+        //$communes_ids = array_map('trim', explode(",", env('COMUNAS')));
+        $communes_ids   = getCommunnes();
         $establishments = Establishment::where('commune_id',$communes_ids)->get();
         //$communes = Commune::whereIn('id', $communes_ids)->get();
         return view('parameters.establishment.index', compact('establishments'));
@@ -21,7 +22,8 @@ class EstablishmentController extends Controller
     public function create()
     {
         //$communes = Commune::All();
-        $communes_ids = array_map('trim', explode(",", env('COMUNAS')));
+        //$communes_ids = array_map('trim', explode(",", env('COMUNAS')));
+        $communes_ids = getCommunnes();
         $communes = Commune::whereIn('id', $communes_ids)->get();
         return view('parameters.establishment.create',compact('communes'));
     }
@@ -37,7 +39,8 @@ class EstablishmentController extends Controller
     public function edit(Establishment $establishment)
     {
         //$communes = Commune::All();
-        $communes_ids = array_map('trim', explode(",", env('COMUNAS')));
+        //$communes_ids = array_map('trim', explode(",", env('COMUNAS')));
+        $communes_ids = getCommunnes();
         $communes = Commune::whereIn('id', $communes_ids)->get();
         return view('parameters.establishment.edit', compact('establishment','communes'));
     }

@@ -39,7 +39,8 @@ class SuspectCaseReportController extends Controller
         // set_time_limit(3600);
 
         /* Obtiene comunas .env */
-        $communes_ids = array_map('trim', explode(",", env('COMUNAS')));
+        //$communes_ids = array_map('trim', explode(",", env('COMUNAS')));
+        $communes_ids = getCommunnes();
         $communes = Commune::whereIn('id', $communes_ids)->get();
 
         /* Consulta base para las demás consultas de pacientes*/
@@ -389,8 +390,8 @@ class SuspectCaseReportController extends Controller
     public function case_tracing(Request $request)
     {
 
-        $env_communes = array_map('trim', explode(",", env('COMUNAS')));
-
+        //$env_communes = array_map('trim', explode(",", env('COMUNAS')));
+        $env_communes = getCommunnes();
         $patients = Patient::whereHas('suspectCases', function ($q) {
             $q->where('pcr_sars_cov_2', 'positive');
         })->whereHas('demographic', function ($q) use ($env_communes) {
@@ -576,7 +577,8 @@ class SuspectCaseReportController extends Controller
 
 
 
-        $communes_ids = array_map('trim', explode(",", env('COMUNAS')));
+        //$communes_ids = array_map('trim', explode(",", env('COMUNAS')));
+        $communes_ids = getCommunnes();
         $communes = Commune::whereIn('id', $communes_ids)->get();
 
 
@@ -586,8 +588,8 @@ class SuspectCaseReportController extends Controller
 
     public function case_tracing_export()
     {
-        $env_communes = array_map('trim', explode(",", env('COMUNAS')));
-
+        //$env_communes = array_map('trim', explode(",", env('COMUNAS')));
+        $env_communes = getCommunnes();
         $patients = Patient::whereHas('suspectCases', function ($q) {
             $q->where('pcr_sars_cov_2', 'positive');
         })->whereHas('demographic', function ($q) use ($env_communes) {
@@ -1082,7 +1084,7 @@ class SuspectCaseReportController extends Controller
                                             'familyMother:' . $patientFamilyMother . PHP_EOL .
                                             'pcrSarsCov2At:' . $pcrSarsCov2At . PHP_EOL .
                                             'pcrSarsCov2:' . $pcrSarsCov2 . PHP_EOL .
-                                            'sampleAt:' . $sampleAt . PHP_EOL); 
+                                            'sampleAt:' . $sampleAt . PHP_EOL);
 
 
         // dd('soy el ws hl7');
@@ -1531,7 +1533,7 @@ class SuspectCaseReportController extends Controller
                     }
                 })
                 ->where(function ($q) use ($selectedSampleAt, $selectedSampleTo) {
-                    if ($selectedSampleAt) {                        
+                    if ($selectedSampleAt) {
                         $q->where('sample_at','>=', $selectedSampleAt)->where('sample_at','<=', $selectedSampleTo);
                     }
                 })
