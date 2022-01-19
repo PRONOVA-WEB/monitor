@@ -20,3 +20,11 @@ function active($route_name)
 {
     echo request()->routeIs($route_name) ? 'active' : '';
 }
+
+function getCommunes(){
+    return \App\Region::find(env('REGION'))->communes->pluck('id')->toArray();
+}
+
+function getEstablishmentsMyCommune() {
+    return \App\Establishment::whereIn('commune_id', getCommunes())->pluck('id');
+}

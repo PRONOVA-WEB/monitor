@@ -26,7 +26,7 @@ class PatientController extends Controller
      */
     public function index(Request $request, Establishment $establishment)
     {
-        $patients = array();        
+        $patients = array();
         if (isset($request->search)) {
             $patients = Patient::search($request->input('search'))
                 ->with('demographic')
@@ -34,7 +34,7 @@ class PatientController extends Controller
                 ->with('contactPatient')
                 ->orderBy('name')
                 ->paginate(250);
-        } 
+        }
 
         return view('patients.index', compact('patients', 'request', 'establishment'));
     }
@@ -131,7 +131,8 @@ class PatientController extends Controller
         $countries = Country::select('name')->orderBy('id', 'ASC')->get();
         $event_types = EventType::all();
         $request_types = RequestType::all();
-        $env_communes = array_map('trim', explode(",", env('COMUNAS')));
+        //$env_communes = array_map('trim', explode(",", env('COMUNAS')));
+        $env_communes = getCommunes();
         $establishments = Establishment::whereIn('commune_id', $env_communes)->orderBy('name', 'ASC')->get();
         $symptoms = Symptom::All();
         return view('patients.edit', compact('patient', 'regions', 'communes', 'event_types', 'request_types', 'establishments', 'symptoms', 'countries', 'timeline'));
@@ -257,7 +258,6 @@ class PatientController extends Controller
                 $q->whereIn('status', ['Ambulatorio', ''])
                     ->OrWhereNULL('status');
             })
-
             ->get();
 
         $data = array();
@@ -501,14 +501,14 @@ class PatientController extends Controller
             [nationality] => Chile
             [region_id] => 1
             [commune_id] => 5
-            [city] => 
-            [suburb] => 
+            [city] =>
+            [suburb] =>
             [latitude] => -20.21422510
             [longitude] => -70.13451010
             [telephone] => 932509396
-            [telephone2] => 
-            [email] => 
-            [workplace] => 
+            [telephone2] =>
+            [email] =>
+            [workplace] =>
             [patient_id] => 65
             [created_at] => 2020-03-25 04:41:56
             [updated_at] => 2020-08-21 19:34:53

@@ -9,7 +9,7 @@
         </div>
         <div class="col-4"></div>
         <div class="col-4 text-right ">
-            <h6>Laboratorio: {{\Illuminate\Support\Facades\Auth::user()->laboratory->alias}}</h6>
+            <h6>Laboratorio: {{ Auth::user()->laboratory->alias}}</h6>
         </div>
     </div>
 

@@ -218,7 +218,8 @@ class SuspectCaseController extends Controller
         $establishments = Establishment::orderBy('name','ASC')->get();
 
         /* FIX codigo duro */
-        $env_communes = array_map('trim',explode(",",env('COMUNAS')));
+        //$env_communes = array_map('trim',explode(",",env('COMUNAS')));
+        $env_communes = getCommunes();
         $establishments = Establishment::whereIn('commune_id',$env_communes)->orderBy('name','ASC')->get();
 
         $sampleOrigins = SampleOrigin::orderBy('alias')->get();
@@ -250,7 +251,8 @@ class SuspectCaseController extends Controller
         $communes = Commune::orderBy('id','ASC')->get();
         $countries = Country::select('name')->orderBy('id', 'ASC')->get();
 
-        $env_communes = array_map('trim',explode(",",env('COMUNAS')));
+        //$env_communes = array_map('trim',explode(",",env('COMUNAS')));
+        $env_communes = getCommunes();
         //$establishments = Establishment::whereIn('commune_id',$env_communes)->where('name','<>','Otros')->orderBy('name','ASC')->get();
 
         $establishmentsusers = EstablishmentUser::where('user_id',Auth::id())->get();
@@ -754,7 +756,9 @@ class SuspectCaseController extends Controller
         //TODO solo debe ser withtrashed si ya existe un registro que ya viene con un lab que se haya eliminado, para poder editar
         $laboratories = Laboratory::withTrashed()->get();
 
-        $establishments = Establishment::whereIn('commune_id',explode(',',env('COMUNAS')))
+        //$establishments = Establishment::whereIn('commune_id',explode(',',env('COMUNAS')))
+         //                               ->orderBy('name','ASC')->get();
+        $establishments = Establishment::whereIn('commune_id',getCommunes())
                                         ->orderBy('name','ASC')->get();
 
         $sampleOrigins = SampleOrigin::orderBy('alias')->get();
@@ -1206,7 +1210,8 @@ class SuspectCaseController extends Controller
 
         }
 
-        $env_communes = array_map('trim',explode(",",env('COMUNAS')));
+        //$env_communes = array_map('trim',explode(",",env('COMUNAS')));
+        $env_communes = getCommunes();
         $communes = Commune::whereIn('id',$env_communes)->orderBy('name','ASC')->get();
         $suspectCases = SuspectCase::whereNotNull('laboratory_id')
                                     ->whereHas('patient', function($q) use ($env_communes){
@@ -1471,7 +1476,8 @@ class SuspectCaseController extends Controller
             ->latest()
             ->paginate(200);
 
-        $env_communes = array_map('trim',explode(",",env('COMUNAS')));
+        //$env_communes = array_map('trim',explode(",",env('COMUNAS')));
+        $env_communes = getCommunes();
         $establishments = Establishment::whereIn('commune_id',$env_communes)->orderBy('name','ASC')->get();
         $laboratories = Laboratory::all();
 

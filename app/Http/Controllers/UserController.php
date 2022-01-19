@@ -113,34 +113,34 @@ class UserController extends Controller
 
         session()->flash('success', 'Estimado Usuari@
 
- 
+
 
         Mediante el presente correo se hace entrega de su clave para el monitor Esmeralda. El link para ingresar es el siguiente
-        
-         
-        
+
+
+
         https://i.saludiquique.cl/monitor/
-        
-         
-        
+
+
+
         en correo deberá digitar al correo que le está llegando este mail y su  contraseña temporal será
-        
-         
-        
+
+
+
         '.$password.'
-        
-         
-        
+
+
+
         Se recomienda cambiar la contraseña a una que sea más fácil de recordar, para eso podrá apretar en la esquina superior derecha en el sistema en la opción" cambiar clave. Y seguir los pasos correspondientes
-        
-         
-        
-         
-        
+
+
+
+
+
         Se despide atentamente
-        
-         
-        
+
+
+
         Atte.');
 
         return redirect()->route('users.index');
@@ -169,7 +169,9 @@ class UserController extends Controller
         $permissions = Permission::OrderBy('name')->get();
         //$dialysiscenters = DialysisCenter::OrderBy('name')->get();
 
-        $env_communes = array_map('trim',explode(",",env('COMUNAS')));
+        //$env_communes = array_map('trim',explode(",",env('COMUNAS')));
+        $env_communes = getCommunes();
+
         $establishments = Establishment::whereIn('commune_id',$env_communes)->orderBy('name','ASC')->get();
 
         $establishments_user = EstablishmentUser::where('user_id', $user->id)->get();

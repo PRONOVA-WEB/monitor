@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Crear Paciente')
+@section('title', 'Formulario envío de muestras 2019-nCoV')
 
 @section('content')
 

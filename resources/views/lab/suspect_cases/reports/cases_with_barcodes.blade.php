@@ -4,9 +4,6 @@
 
 @section('content')
 
-    <?php use Milon\Barcode\DNS1D; ?>
-
-
     @if ($errors->any())
         <div class="alert alert-warning">
             <ul>
@@ -142,7 +139,7 @@
                     <td>{{ strtoupper($case->gender[0]) }}</td>
                     <td class="text-muted small">{{ $case->observation }}</td>
                     <td><img class="mx-3 my-1"
-                             src="data:image/png;base64, <?php echo (new DNS1D)->getBarcodePNG($case->id, "C128", 2, 40); ?> "/>
+                             src="data:image/png;base64, <?php echo DNS1D::getBarcodePNG(strval($case->id), "C128", 2, 40); ?> "/>
                     </td>
                 </tr>
             @endforeach

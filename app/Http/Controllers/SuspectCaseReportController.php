@@ -39,7 +39,8 @@ class SuspectCaseReportController extends Controller
         // set_time_limit(3600);
 
         /* Obtiene comunas .env */
-        $communes_ids = array_map('trim', explode(",", env('COMUNAS')));
+        //$communes_ids = array_map('trim', explode(",", env('COMUNAS')));
+        $communes_ids = getCommunes();
         $communes = Commune::whereIn('id', $communes_ids)->get();
 
         /* Consulta base para las demás consultas de pacientes*/
@@ -100,6 +101,11 @@ class SuspectCaseReportController extends Controller
             $q->whereIn('commune_id', Auth::user()->communes());
         });
 
+        /*chequeo si hay casos + para continuar el flujo */
+        if($patients->count() < 1)
+        {
+            return redirect()->back()->with('info','No existen casos positivos a la fecha');
+        }
         $totalPatients = $this->getTotalPatientsOwn($patients);
 
         /* Evolución */
@@ -247,6 +253,7 @@ class SuspectCaseReportController extends Controller
                 ->take(1)])
             ->get();
 
+
         $begin = SuspectCase::where('pcr_sars_cov_2', 'positive')
             ->whereIn('patient_id', $patients->pluck('id')->toArray())
             ->orderBy('sample_at')
@@ -389,8 +396,8 @@ class SuspectCaseReportController extends Controller
     public function case_tracing(Request $request)
     {
 
-        $env_communes = array_map('trim', explode(",", env('COMUNAS')));
-
+        //$env_communes = array_map('trim', explode(",", env('COMUNAS')));
+        $env_communes = getCommunes();
         $patients = Patient::whereHas('suspectCases', function ($q) {
             $q->where('pcr_sars_cov_2', 'positive');
         })->whereHas('demographic', function ($q) use ($env_communes) {
@@ -576,7 +583,8 @@ class SuspectCaseReportController extends Controller
 
 
 
-        $communes_ids = array_map('trim', explode(",", env('COMUNAS')));
+        //$communes_ids = array_map('trim', explode(",", env('COMUNAS')));
+        $communes_ids = getCommunes();
         $communes = Commune::whereIn('id', $communes_ids)->get();
 
 
@@ -586,8 +594,8 @@ class SuspectCaseReportController extends Controller
 
     public function case_tracing_export()
     {
-        $env_communes = array_map('trim', explode(",", env('COMUNAS')));
-
+        //$env_communes = array_map('trim', explode(",", env('COMUNAS')));
+        $env_communes = getCommunes();
         $patients = Patient::whereHas('suspectCases', function ($q) {
             $q->where('pcr_sars_cov_2', 'positive');
         })->whereHas('demographic', function ($q) use ($env_communes) {
@@ -1082,7 +1090,7 @@ class SuspectCaseReportController extends Controller
                                             'familyMother:' . $patientFamilyMother . PHP_EOL .
                                             'pcrSarsCov2At:' . $pcrSarsCov2At . PHP_EOL .
                                             'pcrSarsCov2:' . $pcrSarsCov2 . PHP_EOL .
-                                            'sampleAt:' . $sampleAt . PHP_EOL); 
+                                            'sampleAt:' . $sampleAt . PHP_EOL);
 
 
         // dd('soy el ws hl7');
@@ -1171,17 +1179,16 @@ class SuspectCaseReportController extends Controller
         //                   ->orderBy('created_at','DESC')->get();
 
         $suspectCases = SuspectCase::whereBetween('pcr_sars_cov_2_at', [$from, $to])
-            ->where('pcr_sars_cov_2', 'like', 'positive')
-            ->where('file', true)
+            //->where('pcr_sars_cov_2', 'like', 'positive')
+            //->where('file', true)
             ->orderBy('created_at', 'DESC')->get();
 
+        // $suspectCasesUnap = SuspectCase::whereBetween('created_at', [$from, $to])
+        //     ->where('pcr_sars_cov_2', 'like', 'positive')
+        //     ->whereIn('laboratory_id', auth()->user()->laboratory)
+        //     ->get();
 
-        $suspectCasesUnap = SuspectCase::whereBetween('created_at', [$from, $to])
-            ->where('pcr_sars_cov_2', 'like', 'positive')
-            ->where('laboratory_id', 2)
-            ->get();
-
-        return view('lab.suspect_cases.reports.exams_with_result', compact('suspectCases', 'suspectCasesUnap'));
+        return view('lab.suspect_cases.reports.exams_with_result', compact('suspectCases'));
     }
 
     /**
@@ -1531,7 +1538,7 @@ class SuspectCaseReportController extends Controller
                     }
                 })
                 ->where(function ($q) use ($selectedSampleAt, $selectedSampleTo) {
-                    if ($selectedSampleAt) {                        
+                    if ($selectedSampleAt) {
                         $q->where('sample_at','>=', $selectedSampleAt)->where('sample_at','<=', $selectedSampleTo);
                     }
                 })
@@ -1548,8 +1555,8 @@ class SuspectCaseReportController extends Controller
                 //dd($suspectCases);
         }
 
-        $env_communes = array_map('trim',explode(",",env('COMUNAS')));
-        $establishments = Establishment::whereIn('commune_id',$env_communes)->orderBy('name','ASC')->get();
+        // $env_communes = array_map('trim',explode(",",env('COMUNAS')));
+        $establishments = Establishment::whereIn('commune_id',getCommunes())->orderBy('name','ASC')->get();
 
         return view('lab.suspect_cases.reports.cases_with_barcodes', compact('suspectCases', 'establishments', 'selectedEstablishment', 'selectedSampleAt','selectedSampleTo', 'selectedCaseType'));
 

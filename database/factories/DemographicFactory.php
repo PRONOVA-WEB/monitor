@@ -12,7 +12,7 @@ $factory->define(Demographic::class, function (Faker $faker) {
     //env('COMUNAS')
     //env('LATITUD')
     //$gestation=($patient->gender=='female'&&$patient->getAgeAttribute()>=16)?$faker->numberBetween(0,1):0;
-    $commune = Commune::where('id',$faker->randomElement(explode(',', env('COMUNAS') )))->get();
+    $commune = Commune::where('id',$faker->randomElement(getCommunes()))->get();
     return [
         //
         'street_type' => $faker->randomElement(['calle', 'pasaje', 'avenida', 'camino']),

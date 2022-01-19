@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1" name="viewport">
-    {{-- <title>{{ settings('site.title') }}</title> --}}
+    <title>{{ settings('site.title') }}</title>
     <meta content="Pronova" name="author" />
     <!-- Custom fonts for this template-->
     <link
@@ -14,6 +14,7 @@
     <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
     <script src="https://kit.fontawesome.com/7c4f606aba.js" SameSite="None" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{{ asset('css/show-password-toggle.min.css') }}">
     <style>
         .locallogin {
             background-color: #e7e7e7;
@@ -64,7 +65,11 @@
                                     <div class="form-group">
                                         <label for="password" class="col-lg-8 offset-lg-2">Clave</label>
                                         <div class="col-lg-8 offset-lg-2">
-                                            <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
+                                            <input id="password" type="password" class="form-control @error('password') is-invalid @enderror"
+                                            name="password" required spellcheck="false" autocorrect="off" autocapitalize="off" autocomplete="current-password">
+                                            <button id="toggle-password" type="button" class="d-none"
+                                                aria-label="Show password as plain text. Warning: this will display your password on the screen.">
+                                            </button>
                                             @error('password')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
@@ -116,6 +121,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"
         integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous">
     </script>
+    <script src="{{ asset('js/show-password-toggle.min.js') }}" async></script>
 
 </body>
 

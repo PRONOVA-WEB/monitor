@@ -161,7 +161,7 @@
                 @endcan
                 <small>{{ $case->minsal_ws_id }}</small>
             </td>
-            <td nowrap class="small">{{ (isset($case->sample_at))? $case->sample_at->format('Y-m-d'):'' }}</td>
+            <td nowrap class="small">{{ (isset($case->sample_at))? $case->sample_at->format('d-m-Y'):'' }}</td>
             <td>
                 {{ ($case->establishment) ? $case->establishment->alias . ' - ': '' }}
                 {{ $case->origin }}

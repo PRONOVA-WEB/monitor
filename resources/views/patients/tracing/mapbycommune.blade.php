@@ -2,16 +2,16 @@
 
 @section('title', 'Georeferenciación')
 
-@section('content')  
-<h3 class="mb-3"><i class="fas fa-globe-americas"></i> Seguimiento en Mis Comunas</h3> 
+@section('content')
+<h3 class="mb-3"><i class="fas fa-globe-americas"></i> Seguimiento en Mis Comunas</h3>
 (<b>Mis Comunas:</b>
 @foreach($communes as $commune)
-{{$commune->name}}
+{{$commune->name}}{{ (!$loop->last) ? ' -' : '' }}
 @endforeach
 )
 
-
- <small>(Rojo:Caso Indice - Azul:Contacto Alto Riesgo)</small>
+<br>
+<small>(Rojo:Caso Indice - Azul:Contacto Alto Riesgo)</small>
     <div id="map" style="width: 100%; height: 650px"></div>
 @endsection
 
@@ -33,8 +33,8 @@
         // in place of a google.maps.LatLng object.
 
         function initMap() {
-          var mapOptions = {          
-            zoom: 12.7,
+          var mapOptions = {
+            zoom: 9,
             center: {
             lat: {{ env('LATITUD') }},
             lng: {{ env('LONGITUD') }}
@@ -55,7 +55,7 @@
             @else
             icon: {url: "http://maps.gstatic.com/mapfiles/ridefinder-images/mm_20_blue.png"},
             @endif
-            position: {                
+            position: {
               lat: {{$patient->demographic->latitude}},
               lng: {{$patient->demographic->longitude }}
             },
@@ -64,19 +64,19 @@
           // creating the Marker object. Once the Marker object is instantiated, its
           // position will be available as a google.maps.LatLng object. In this case,
           // we retrieve the marker's position using the
-          // google.maps.LatLng.getPosition() method.          
-          
-          
+          // google.maps.LatLng.getPosition() method.
+
+
           var content = "<h6><p align='center'><b><a href='{{route('patients.edit',$patient)}}' target='_blank'>{{$patient->name1}}</a></b></p></h6><hr> <p>Inicio de Cuaretena:{{ $patient->tracing->quarantine_start_at->format('Y-m-d') }} </p> <p> Fin de Cuarentena:{{ $patient->tracing->quarantine_end_at->format('Y-m-d') }} ({{ $patient->tracing->quarantine_start_at->diffInDays(Carbon\Carbon::now()) }}) </p> <hr> <p>Notificación:{{ ($patient->tracing->notification_at)? $patient->tracing->notification_at->format('Y-m-d') : '' }}</p> <p>Último evento:{{ ($patient->tracing->events->last()) ? $patient->tracing->events->last()->event_at->format('Y-m-d') : '' }}</p> <p>Funcionario:{{ ($patient->tracing->events->last()) ? $patient->tracing->events->last()->user->name : '' }}</p>";
           var infowindow = new google.maps.InfoWindow();
 
         //   var infowindow = new google.maps.InfoWindow({
-        
+
         //   });
         //   google.maps.event.addListener(marker, "click", function() {
         //     infowindow.open(exports.map, marker);
         //   });
-          google.maps.event.addListener(marker,'click', (function(marker,content,infowindow){ 
+          google.maps.event.addListener(marker,'click', (function(marker,content,infowindow){
         return function() {
         infowindow.setContent(content);
         infowindow.open(map,marker);
@@ -88,7 +88,7 @@
           @endif
           @endforeach
         }
-        
+
 
         exports.initMap = initMap;
       })((this.window = this.window || {}));

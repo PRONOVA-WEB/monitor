@@ -82,7 +82,8 @@ class ContactPatientController extends Controller
           }
         }
 
-        $env_communes = array_map('trim',explode(",",env('COMUNAS')));
+        //$env_communes = array_map('trim',explode(",",env('COMUNAS')));
+        $env_communes = getCommunes();
         $establishments = Establishment::whereIn('commune_id',$env_communes)->orderBy('name','ASC')->get();
 
         return view('patients.contact.create', compact('patients', 'contacts','s', 'id_patient','request', 'message', 'establishments'));

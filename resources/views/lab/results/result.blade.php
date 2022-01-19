@@ -49,6 +49,7 @@
         .cabecera {
             display: inline-block;
             vertical-align: top;
+            text-align: center;
         }
 
         #tipomuestra {
@@ -70,15 +71,20 @@
                 <img src="images/lab_1.png" width="150" alt="logo servicio">
             @endif
         </div>
-        <div class="cabecera" style="padding-left: 10px; @if($case->laboratory->id == 13) padding-top: 18px; @endif ">
-            <h1>{{$case->laboratory->name}}</h1>
-            <h2 style="line-height: 1px;">LABORATORIO DE BIOLOGÍA MOLECULAR</h2>
-        </div>
-
     </div>
-
+    <div class="cabecera" style="padding-top: 50px;">
+        <h1>{{$case->laboratory->name}}</h1>
+        <h2 style="line-height: 1px;">LABORATORIO DE BIOLOGÍA MOLECULAR</h2>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
     <h2 id="peticion">RESULTADO DE EXAMEN N°: {{ $case->id }} </h2>
-
+    <br>
+    <br>
+    <br>
     <table id="demograficos">
         <tr>
             <th>NOMBRE COMPLETO</th>
@@ -106,9 +112,13 @@
         </tr>
     </table>
     <hr>
+    <br>
+    <br>
+
     <div class="contenido">
         <p>BIOLOGÍA MOLECULAR</p>
-
+        <br>
+        <br>
         <table id="resultados">
             <thead>
                 <tr>
@@ -138,7 +148,9 @@
         <div style="height: 240px;">
 
         </div>
-
+        <br>
+        <br>
+        <br>
         <table width="100%">
             <tr>
                 <td>
@@ -151,16 +163,6 @@
                     <td>
                         <div class="firma">
                             <img src="images/firma_user_{{ $case->validator->id}}.png" width="140"
-                                 alt="Firma Validador">
-                        </div>
-                    </td>
-                @endif
-
-                {{-- Lab Arauco --}}
-                @if($case->laboratory->id == 9)
-                    <td>
-                        <div class="firma">
-                            <img src="images/firma_tec_arauco.png" width="140"
                                  alt="Firma Validador">
                         </div>
                     </td>
@@ -183,23 +185,10 @@
                         VALIDADOR
                     </td>
                 @endif
-
-                {{-- Lab Arauco --}}
-                @if($case->laboratory->id == 9)
-                    <td class="firma">
-                        {{-- @if($case->validator) --}}
-                        Mauricio Fuentes Aviles
-                            {{-- {{ $case->validator->name }} --}}
-                        {{-- @endif --}}
-                        <br>
-                        VALIDADOR
-                    </td>
-                @endif
-
             </tr>
         </table>
-
-
+        <br>
+        <br>
         <p id="fecha">Fecha y hora informe: {{ ($case->updated_at)? $case->updated_at->format('d-m-Y H:i'): '' }}</p>
     </div>
 </body>

@@ -14,12 +14,17 @@ class UserSeeder extends Seeder
     public function run()
     {
         $user = new User();
-        $user->run = "15637637";
-        $user->dv = 'K';
+        $user->run = "12345678";
+        $user->dv = '9';
         $user->name = "Administrador";
         $user->email = "adiaz@pronova.cl";
         $user->password = bcrypt('admin');
+        $user->laboratory_id = 1;
         $user->save();
         $user->givePermissionTo(Permission::all());
+
+        //añado establecimientos de la regíon metropolitana
+        $establishments = \App\Establishment::whereIn('commune_id',getCommunes())->pluck('id');
+        $user->establishments()->attach($establishments);
     }
 }

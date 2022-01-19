@@ -18,7 +18,7 @@ class AdmissionSurveyController extends Controller
         $admissions = AdmissionSurvey::where('status', 'Aceptado')->whereHas('patient', function ($q) {
                 $q->where('status', '<>','Residencia Sanitaria')->whereNotIn('status', ['Alta','Fallecido','Hospitalizado Básico','Hospitalizado Medio','Fugado'])->orWhere('status', null);
             })->get();
-        
+
         return view('sanitary_residences.admission.index', compact('admissions'));
     }
 
@@ -50,7 +50,7 @@ class AdmissionSurveyController extends Controller
     }
 
     public function accept(AdmissionSurvey $admission)
-    {      
+    {
 
         $accept = AdmissionSurvey::find($admission->id);
         $accept->status = 'Aceptado';
@@ -172,8 +172,8 @@ class AdmissionSurveyController extends Controller
         $admission->delete();
         session()->flash('success', 'Encuesta de '.$admission->patient->fullname.' Eliminada exitosamente');
         return redirect()->route('sanitary_residences.admission.index');
-        
 
-        
+
+
     }
 }
