@@ -25,7 +25,7 @@
 
         function initMap() {
           var mapOptions = {
-            zoom: 12.7,
+            zoom: 9,
             center: {
             lat: {{ env('LATITUD') }},
             lng: {{ env('LONGITUD') }}

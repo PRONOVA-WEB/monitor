@@ -58,24 +58,13 @@
                 <a class="collapse-item" href="{{ route('lab.suspect_cases.index',$lab) }}?&text=&pendientes=on">Laboratorio {{ $lab->alias }}</a>
                 @endforeach
                 <a class="collapse-item" href="{{ route('lab.suspect_cases.index') }}?text=&pendientes=on">Todos los exámenes</a>
-                <hr class="sidebar-divider">
-                @endcan
-                @can('DialysisCenter: user')
-                @php
-                $dialysis = App\EstablishmentUser::where('user_id',Auth::id())->get();
-                @endphp
-                @foreach($dialysis as $dialysi)
-                @if(str_contains($dialysi->establishment->alias, 'Diálisis'))
-                <a class="collapse-item" href="{{ route('lab.suspect_cases.dialysis.index', $dialysi->establishment) }}">{{$dialysi->establishment->alias}}</a>
-                @endif
-                @endforeach
-                <hr class="sidebar-divider">
                 @endcan
                 @can('SuspectCase: own')
                 <a class="collapse-item" href="{{ route('lab.suspect_cases.ownIndex') }}?text=&filter%5B%5D=pending">Mis exámenes</a>
                 @endcan
                 <hr class="sidebar-divider">
                 @can('Patient: tracing')
+                <h6 class="collapse-header">Seguimiento</h6>
                 <a class="collapse-item" href="{{ route('lab.suspect_cases.notificationInbox') }}">Por notificar<br> (excepto positivos)</a>
                 <a class="collapse-item" href="{{ route('patients.tracings.communes') }}">Seguimiento<br> de mis comunas</a>
                 <a class="collapse-item" href="{{ route('patients.tracings.establishments') }}">Seguimiento<br> de mis establecimientos</a>
@@ -120,6 +109,7 @@
                 <a class="collapse-item" href="{{ route('sequencing.index') }}">Secuenciación</a>
                 @endcan
                 <hr class="sidebar-divider">
+                <h6 class="collapse-header">Cargas</h6>
                 @can('SuspectCase: bulk load')
                 <a class="collapse-item" href="{{ route('lab.bulk_load.index') }}">Carga Masiva</a>
                 @endcan
@@ -172,7 +162,7 @@
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseResidencia"
             aria-expanded="true" aria-controls="collapseResidencia">
             <i class="fas fa-hotel"></i>
-            <span>Residencia</span>
+            <span>Residencias</span>
         </a>
         <div id="collapseResidencia" class="collapse" aria-labelledby="headingResidencia" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
@@ -182,23 +172,25 @@
                 <hr class="sidebar-divider">
                 @endcan
                 @canany(['SanitaryResidence: admin', 'Report: residences'])
+                <h6 class="collapse-header">Reportes</h6>
                 <a class="collapse-item" href="{{ route('sanitary_residences.residences.statusReport') }}">Consolidado Booking</a>
                 <a class="collapse-item" href="{{ route('sanitary_residences.bookings.bookingByDate') }}">Booking Realizados<br> por Fechas</a>
                 <a class="collapse-item" href="{{ route('sanitary_residences.residences.map') }}">Mapa de Residencias</a>
                 <hr class="sidebar-divider">
                 @endcan
                 @can('SanitaryResidence: admin')
-                <a class="collapse-item" href="{{ route('sanitary_residences.residences.index') }}">Mantenedor Residencias</a>
+                <h6 class="collapse-header">Mantenedor</h6>
+                <a class="collapse-item" href="{{ route('sanitary_residences.residences.index') }}">Residencias</a>
                 <a class="collapse-item" href="{{ route('sanitary_residences.rooms.index') }}">Habitaciones</a>
                 <a class="collapse-item" href="{{ route('sanitary_residences.users') }}">Usuarios</a>
                 <hr class="sidebar-divider">
                 @endcan
+                <h6 class="collapse-header">SEREMI</h6>
                 @canany(['collapse: admin','SanitaryResidence: user'])
-                <a class="collapse-item" href="{{ route('sanitary_residences.admission.index') }}">Aprobados por SEREMI</a>
-                <hr class="sidebar-divider">
+                <a class="collapse-item" href="{{ route('sanitary_residences.admission.index') }}">Aprobados</a>
                 @endcan
                 @canany(['SanitaryResidence: admission','Developer'])
-                <a class="collapse-item" href="{{ route('sanitary_residences.admission.inbox') }}">Bandeja SEREMI</a>
+                <a class="collapse-item" href="{{ route('sanitary_residences.admission.inbox') }}">Bandeja</a>
                 <hr class="sidebar-divider">
                 @endcan
             </div>

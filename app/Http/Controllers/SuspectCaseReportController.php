@@ -101,6 +101,11 @@ class SuspectCaseReportController extends Controller
             $q->whereIn('commune_id', Auth::user()->communes());
         });
 
+        /*chequeo si hay casos + para continuar el flujo */
+        if($patients->count() < 1)
+        {
+            return redirect()->back()->with('info','No existen casos positivos a la fecha');
+        }
         $totalPatients = $this->getTotalPatientsOwn($patients);
 
         /* Evolución */
@@ -247,6 +252,7 @@ class SuspectCaseReportController extends Controller
                 ->where('pcr_sars_cov_2', 'positive')
                 ->take(1)])
             ->get();
+
 
         $begin = SuspectCase::where('pcr_sars_cov_2', 'positive')
             ->whereIn('patient_id', $patients->pluck('id')->toArray())
