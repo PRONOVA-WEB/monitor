@@ -14,7 +14,7 @@
                     <thead>
                     <tr class="d-flex">
                         <th class="col-3"></th>
-                        <th class="col-2">id esmeralda</th>
+                        <th class="col-2">id muestra</th>
                         <th class="col-2">resultado</th>
                         <th class="col-2">fecha resultado</th>
                         <th class="col-3"></th>

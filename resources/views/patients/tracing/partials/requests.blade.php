@@ -1,4 +1,4 @@
-<h4 class="mt-4">Solicitudes Sociosanitarias</h4>
+<h4 class="mt-4">Solicitudes sociosanitarias</h4>
 <div class="table-responsive-sm">
 <table class="table table-sm table-bordered small">
     <thead>

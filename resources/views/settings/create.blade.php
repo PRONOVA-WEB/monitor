@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
-@section('title', 'Crear Parámetro')
+@section('title', 'Crear ajustes')
 
 @section('content')
     <div class="container-fluid">
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Crear Parámetro
+            <h1 class="h3 mb-0 text-gray-800">Crear parámetro en ajustes
             </h1>
         </div>
         <form action="{{ route('settings.store') }}" method="POST">

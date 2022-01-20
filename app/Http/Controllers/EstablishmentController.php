@@ -14,7 +14,7 @@ class EstablishmentController extends Controller
     {
         //$communes_ids = array_map('trim', explode(",", env('COMUNAS')));
         $communes_ids   = getCommunes();
-        $establishments = Establishment::where('commune_id',$communes_ids)->get();
+        $establishments = Establishment::whereIn('commune_id',$communes_ids)->get();
         //$communes = Commune::whereIn('id', $communes_ids)->get();
         return view('parameters.establishment.index', compact('establishments'));
     }

@@ -14,6 +14,7 @@
     <thead>
         <tr>
             <th>Nombre</th>
+            <th>Comuna</th>
             <th>Dirección</th>
             <th>Teléfono</th>
             <th>Editar</th>
@@ -23,7 +24,8 @@
         @foreach($residences as $residence)
         <tr>
             <td>{{ $residence->name }}</td>
-            <td>{{ $residence->address }}</td>
+            <td>{{ \App\Commune::find($residence->commune_id)->name }}</td>
+            <td>{{ $residence->address.' '.$residence->number }}</td>
             <td>{{ $residence->telephone }}</td>
             <td>
                 <a href="{{ route('sanitary_residences.residences.edit', $residence) }}" class="btn btn-secondary float-left"><i class="fas fa-edit"></i></a>

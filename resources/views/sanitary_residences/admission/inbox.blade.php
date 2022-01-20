@@ -8,12 +8,12 @@
 
 
 
-<h3 class="mb-3">Listado de Encuestas Pendientes de Visto Bueno</h3>
+<h3 class="mb-3">Listado de encuestas pendientes de visto bueno</h3>
 <a class="btn btn-outline-success btn-sm mb-3" id="downloadLink" onclick="exportF(this)">Descargar en excel <i class="far fa-file-excel"></i></a>
 <div class="table-responsive">
 <table class="table table-sm table-bordered text-center align-middle " id="tabla_encuestas_pendiente_vb">
   <thead>
-    <tr>      
+    <tr>
       <th>Nombre de Encuestado</th>
       <th>Fecha de Encuesta</th>
       <th>Fecha Digitación en Sistema de Encuesta</th>

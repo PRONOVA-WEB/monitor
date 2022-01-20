@@ -14,10 +14,7 @@ class ResidenceSeeder extends Seeder
         //
         $items = [
 
-            ['id' => 1, 'name' => 'Hotel Agua Luna' , 'address' => 'Caleta Rio Seco 2152', 'telephone'=> '572449287', 'width'=> '172', 'height'=> '172'],
-            ['id' => 2, 'name' => 'Colegio Universitario UNAP' , 'address' => 'Zegers #426', 'telephone'=> '', 'width'=> '200', 'height'=> '600' ],
-            ['id' => 3, 'name' => 'Hotel Urbano' , 'address' => 'Patricio Lynch #679', 'telephone'=> '572764012', 'width'=> '172', 'height'=> '172' ],
-
+            ['id' => 1, 'name' => 'Hotel Santo Domingo' , 'address' => 'Santo Domingo','number'=>'1546', 'commune_id'=>'90','telephone'=> '572449287', 'width'=> '172', 'height'=> '172', 'latitude'=>'-33.436955836980395', 'longitude'=>'-70.6590826468289'],
         ];
 
         foreach ($items as $item) {

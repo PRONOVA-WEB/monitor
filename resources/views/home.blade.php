@@ -19,8 +19,8 @@
                     @endif
                     <br>
                     Usted tiene acceso a los siguientes establecimientos:
-                    @forelse ($establishmentsusers as $establishmentsusers)
-                    <br>{{ $establishmentsusers->establishment->alias }}
+                    @forelse ($establishmentsusers->take('20') as $establishmentsusers)
+                    <br>{{ '- '.$establishmentsusers->establishment->alias }}
                     @empty
                     <br>No tiene establecimientos configurados
                     @endforelse

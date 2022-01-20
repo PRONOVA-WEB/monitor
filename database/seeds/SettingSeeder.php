@@ -29,9 +29,7 @@ class SettingSeeder extends Seeder
                 'id' => 2,
                 'key' => 'site.description',
                 'display_name' => 'Descripción del sitio',
-                'value' => '<h2>What is Lorem Ipsum?</h2>
-                <p><strong>Lorem Ipsum</strong>&nbsp;</p>
-                <p>Is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>',
+                'value' => '<p>Sistema para el levantamiento de casos <strong>COVID-19</strong> por parte de laboratorios, con su posterior seguimiento y levantamiento de avisos y eventos. Cuenta con geolocalizaci&oacute;n de casos, adem&aacute;s de asignaci&oacute;n de residencias sanitarias para pacientes.</p>',
                 'details' => '',
                 'type' => 'rich_text_box',
                 'order' => 2,

@@ -6,7 +6,7 @@
 
 @include('sanitary_residences.nav')
 
-<h3 class="mb-3">Listado de Encuestas Aprobadas y Asignados con Residencia Sanitaria</h3>
+<h3 class="mb-3">Listado de encuestas aprobadas y asignados con residencia sanitaria</h3>
 <a class="btn btn-outline-success btn-sm mb-3" id="downloadLink" onclick="exportF(this)">Descargar en excel <i class="far fa-file-excel"></i></a>
 <div class="table-responsive">
 <table class="table table-sm table-bordered text-center align-middle" id="tabla_encuestas_aceptadas_vb">
@@ -36,8 +36,8 @@
       <td class="text-center align-middle" nowrap>{!! $admission->result !!}</td>
       <td class="text-center align-middle">{{ $admission->status }}</td>
       @if($admission->patient->bookings->last() and $admission->patient->bookings->last()->room )
-      <td class="text-center align-middle">      
-      <a target="_blank" href="{{ route('sanitary_residences.bookings.showrelease', $admission->patient->bookings->last()) }}">        
+      <td class="text-center align-middle">
+      <a target="_blank" href="{{ route('sanitary_residences.bookings.showrelease', $admission->patient->bookings->last()) }}">
       @if($admission->patient->bookings->last()->status =='Alta')
       Alta
       @endif
@@ -46,8 +46,8 @@
       </a>
       @else
       <td class="text-center align-middle">Última habitación que estuvo está Eliminada</td>
-      @endif      
-      
+      @endif
+
 
 
       <td class="text-center align-middle"><a class="btn btn-success btn-sm" href="{{ route('sanitary_residences.admission.show', $admission) }}">

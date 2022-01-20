@@ -66,7 +66,8 @@ class ResidenceController extends Controller
      */
     public function create()
     {
-        return view('sanitary_residences.residences.create');
+        $communes = \App\Region::find(env('REGION'))->communes->sortBy('name');
+        return view('sanitary_residences.residences.create', compact('communes'));
     }
 
     /**
@@ -102,7 +103,8 @@ class ResidenceController extends Controller
      */
     public function edit(Residence $residence)
     {
-        return view('sanitary_residences.residences.edit', compact('residence'));
+        $communes = \App\Region::find(env('REGION'))->communes->sortBy('name');
+        return view('sanitary_residences.residences.edit', compact('residence','communes'));
     }
 
     /**
@@ -157,14 +159,14 @@ class ResidenceController extends Controller
             $totaldoublebyresidence = $residence->rooms->sum('double');
 
             $rooms = $residence->rooms;
-            foreach ($rooms as $room){                
-                $bookings = $room->bookings();                
+            foreach ($rooms as $room){
+                $bookings = $room->bookings();
 
                 $counterPatientsByRoom = $bookings->where('status', 'Residencia Sanitaria')->whereNull('real_to')
                                         ->whereHas('patient', function($q){
                                             $q->where('status', 'Residencia Sanitaria');
                                         })->get()->count();
-                
+
 
                 $counterPatientsByResidence = $counterPatientsByResidence + $counterPatientsByRoom;
 
@@ -207,7 +209,7 @@ class ResidenceController extends Controller
         $sumDouble = 0;
 
         foreach ($dataArray as $residence){
-            
+
             $totalRooms = $totalRooms + $residence['totalRooms'];
             $totalOccupiedRooms = $totalOccupiedRooms + $residence['occupiedRooms'];
             $totalPatients = $totalPatients + $residence['patients'];
@@ -219,14 +221,14 @@ class ResidenceController extends Controller
 
         }
 
-        
-        
+
+
 
         return view('sanitary_residences.residences.map', compact('residences', 'dataArray'));
     }
 
 
-    
+
 
     /**
      * Reporte de estado de residencias
@@ -244,14 +246,14 @@ class ResidenceController extends Controller
             $totaldoublebyresidence = $residence->rooms->sum('double');
 
             $rooms = $residence->rooms;
-            foreach ($rooms as $room){                
-                $bookings = $room->bookings();                
+            foreach ($rooms as $room){
+                $bookings = $room->bookings();
 
                 $counterPatientsByRoom = $bookings->where('status', 'Residencia Sanitaria')->whereNull('real_to')
                                         ->whereHas('patient', function($q){
                                             $q->where('status', 'Residencia Sanitaria');
                                         })->get()->count();
-                
+
 
                 $counterPatientsByResidence = $counterPatientsByResidence + $counterPatientsByRoom;
 

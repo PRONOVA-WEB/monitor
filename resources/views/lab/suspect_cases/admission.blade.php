@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('title', 'Nueva sospecha')
+@push('css')
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap-select.min.css') }}">
+@endpush
 
 @section('content')
     <div class="row">
@@ -140,8 +143,7 @@
 
         <fieldset class="form-group col-12 col-md-3">
             <label for="for_establishment_id">Establecimiento *</label>
-            <select name="establishment_id" id="for_establishment_id" class="form-control" required>
-                <option value="">Seleccionar Establecimiento</option>
+            <select name="establishment_id" id="for_establishment_id" class="form-control selectpicker"  data-live-search="true"  data-size="10" title="Seleccione..." data-actions-box="true" required>
                 @foreach($establishmentsusers as $establishmentsusers)
                     <option value="{{ $establishmentsusers->establishment->id }}" {{(old('establishment_id') == $establishmentsusers->establishment->id) ? 'selected' : '' }} >{{ $establishmentsusers->establishment->alias }}</option>
                 @endforeach
@@ -315,6 +317,8 @@
 @endsection
 
 @section('custom_js')
+/*script select picker*/
+<script src="{{ asset('js/bootstrap-select.min.js') }}"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src='{{asset("js/jquery.rut.chileno.js")}}'></script>
 <script type="text/javascript">
@@ -573,8 +577,6 @@ $(document).ready(function(){
 
 });
 
-
-
-
 </script>
+
 @endsection

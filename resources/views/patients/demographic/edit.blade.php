@@ -60,7 +60,7 @@
 
     <fieldset class="form-group col-12 col-sm-6 col-md-3">
         <label for="for_commune geo">Comuna</label>
-        <select class="form-control" name="commune_id" id="comunas"
+        <select class="form-control geo" name="commune_id" id="comunas"
             value="{{ $patient->demographic->comunas }}"></select>
     </fieldset>
 

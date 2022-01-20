@@ -129,7 +129,7 @@
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseGeo"
             aria-expanded="true" aria-controls="collapseGeo">
             <i class="fas fa-globe-americas"></i>
-            <span>Georeferencia</span>
+            <span>Georreferencia</span>
         </a>
         <div id="collapseGeo" class="collapse" aria-labelledby="headingGeo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
@@ -166,13 +166,22 @@
         </a>
         <div id="collapseResidencia" class="collapse" aria-labelledby="headingResidencia" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                @canany(['SanitaryResidence: user', 'SanitaryResidence: admin', 'Report: residences','SanitaryResidence: view'] )
-                <a class="collapse-item" href="{{ route('sanitary_residences.home') }}">Residencias Sanitarias</a>
-                <a class="collapse-item" href="{{ route('sanitary_residences.bookings.excelall') }}">Booking Actuales</a>
+                <h6 class="collapse-header">Encuestas</h6>
+                @canany(['SanitaryResidence: user', 'SanitaryResidence: admin', 'Report: residences','SanitaryResidence: view','SanitaryResidence: admission','Developer'] )
+                <a class="collapse-item" href="{{ route('sanitary_residences.home') }}">Bandeja</a>
+                <hr class="sidebar-divider">
+                @endcan
+                <h6 class="collapse-header">Booking</h6>
+                @canany(['SanitaryResidence: admin','SanitaryResidence: user'])
+                <a class="collapse-item" href="{{ route('sanitary_residences.admission.index') }}">Aprobadas /<br> Asignar Habitación</a>
+                @endcan
+                @canany(['SanitaryResidence: admission','Developer'])
+                {{-- <a class="collapse-item" href="{{ route('sanitary_residences.admission.inbox') }}">Bandeja</a> --}}
                 <hr class="sidebar-divider">
                 @endcan
                 @canany(['SanitaryResidence: admin', 'Report: residences'])
                 <h6 class="collapse-header">Reportes</h6>
+                <a class="collapse-item" href="{{ route('sanitary_residences.bookings.excelall') }}">Booking Actuales</a>
                 <a class="collapse-item" href="{{ route('sanitary_residences.residences.statusReport') }}">Consolidado Booking</a>
                 <a class="collapse-item" href="{{ route('sanitary_residences.bookings.bookingByDate') }}">Booking Realizados<br> por Fechas</a>
                 <a class="collapse-item" href="{{ route('sanitary_residences.residences.map') }}">Mapa de Residencias</a>
@@ -183,14 +192,6 @@
                 <a class="collapse-item" href="{{ route('sanitary_residences.residences.index') }}">Residencias</a>
                 <a class="collapse-item" href="{{ route('sanitary_residences.rooms.index') }}">Habitaciones</a>
                 <a class="collapse-item" href="{{ route('sanitary_residences.users') }}">Usuarios</a>
-                <hr class="sidebar-divider">
-                @endcan
-                <h6 class="collapse-header">SEREMI</h6>
-                @canany(['collapse: admin','SanitaryResidence: user'])
-                <a class="collapse-item" href="{{ route('sanitary_residences.admission.index') }}">Aprobados</a>
-                @endcan
-                @canany(['SanitaryResidence: admission','Developer'])
-                <a class="collapse-item" href="{{ route('sanitary_residences.admission.inbox') }}">Bandeja</a>
                 <hr class="sidebar-divider">
                 @endcan
             </div>

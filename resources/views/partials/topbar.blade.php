@@ -26,13 +26,6 @@
                     <i class="fas fa-cogs fa-fw"></i> Ajustes
                 </a>
                 @endcan
-                <a class="dropdown-item" target="_blank" href="https://www.youtube.com/channel/UCynVYUM4qEu9eGPvM_3Z-WA">
-                    Tutoriales
-                </a>
-                @can('Developer')
-                <a class="dropdown-item" href="{{ route('patients.tracings.withouttracing') }}">Pacientes (+) sin tracing</a>
-                <a class="dropdown-item" href="{{ route('patients.tracings.cartoindex') }}">BETA Pacientes CAR que pasaron a Indice</a>
-                @endcan
                 <a class="dropdown-item" href="{{ route('users.password.show_form') }}">
                     Cambiar clave
                 </a>

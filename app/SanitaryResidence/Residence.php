@@ -17,12 +17,12 @@ class Residence extends Model implements Auditable //Authenticatable
      * The attributes that are mass assignable.
      *
      * @var array
-     * 
+     *
      */
     use SoftDeletes;
     use \OwenIt\Auditing\Auditable;
     protected $fillable = [
-        'name', 'address','telephone',
+        'name', 'address','number','commune_id','latitude','longitude','telephone',
         'width','height'
     ];
 

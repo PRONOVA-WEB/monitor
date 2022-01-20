@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
-@section('title', 'Parámetros')
+@section('title', 'Ajustes')
 
 @section('content')
     <div class="container-fluid">
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Parámetros
+            <h1 class="h3 mb-0 text-gray-800">Ajustes
                 @can('Users: create')
                     <a href="{{ route('settings.create') }}" class="btn btn-primary">Crear</a>
                 @endcan

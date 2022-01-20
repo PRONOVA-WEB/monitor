@@ -6,7 +6,7 @@
 
 
 
-<h3 class="mb-3">Aceptar/Rechazar Pauta de Evaluación Residencia Sanitaria</h3>
+<h3 class="mb-3">Aceptar/Rechazar pauta de evaluación residencia sanitaria</h3>
 
 <hr>
 <form method="POST" class="form-horizontal" action=" {{ route('sanitary_residences.admission.update', $admission) }} ">

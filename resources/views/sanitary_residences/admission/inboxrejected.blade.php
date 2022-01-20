@@ -6,7 +6,7 @@
 
 @include('sanitary_residences.nav')
 
-<h3 class="mb-3">Listado de Encuestas Rechazadas</h3>
+<h3 class="mb-3">Listado de encuestas rechazadas</h3>
 <a class="btn btn-outline-success btn-sm mb-3" id="downloadLink" onclick="exportF(this)">Descargar en excel <i class="far fa-file-excel"></i></a>
 <div class="table-responsive">
   <table class="table table-sm table-bordered" id="tabla_encuestas_rechazadas_vb">
