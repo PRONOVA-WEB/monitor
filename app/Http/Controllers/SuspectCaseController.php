@@ -957,7 +957,7 @@ class SuspectCaseController extends Controller
             }
         }
 
-        if (env('APP_ENV') == 'production') {
+        if (env('SEND_MAIL_NEW_POSITIVE')) {
             if ($old_pcr == 'pending' and $suspectCase->pcr_sars_cov_2 == 'positive') {
                 $emails  = explode(',', env('EMAILS_ALERT'));
                 $emails_bcc  = explode(',', env('EMAILS_ALERT_BCC'));
@@ -1010,7 +1010,7 @@ class SuspectCaseController extends Controller
 
         }
 
-        return redirect($request->input('referer'));
+        return redirect($request->input('referer'))->with('success','Caso actualizado exitosamente');
         //return redirect()->route('lab.suspect_cases.index',$suspectCase->laboratory_id);
     }
 
@@ -1265,7 +1265,7 @@ class SuspectCaseController extends Controller
         $from = Carbon::now()->subDays(30);
         $to = Carbon::now();
 
-        $env_communes = array_map('trim',explode(",",env('COMUNAS')));
+        $env_communes = getCommunes();
         $communes = Commune::whereIn('id',$env_communes)->orderBy('name','ASC')->get();
 
         $beginExamDate = SuspectCase::whereBetween('sample_at',[$from,$to])

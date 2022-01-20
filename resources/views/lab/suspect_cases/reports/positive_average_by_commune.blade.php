@@ -10,7 +10,7 @@
 
     <h5 class="mb-3">Tasa de positividad de últimos 30 días por comuna</h5>
 
-    <div class="table-responsive-sm">
+    <div class="table-responsive-sm overflow-auto">
       <table class="table table-sm table-bordered text-center table-striped small">
         <thead>
           <tr class="text-center">

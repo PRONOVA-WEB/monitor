@@ -26,5 +26,10 @@ class UserSeeder extends Seeder
         //añado establecimientos de la regíon metropolitana
         $establishments = \App\Establishment::whereIn('commune_id',getCommunes())->pluck('id');
         $user->establishments()->attach($establishments);
+
+        //añado un director al primer laboratorio
+        $laboratory = \App\Laboratory::first();
+        $laboratory->director_id = $user->id;
+        $laboratory->save;
     }
 }

@@ -29,7 +29,7 @@ class SettingSeeder extends Seeder
                 'id' => 2,
                 'key' => 'site.description',
                 'display_name' => 'Descripción del sitio',
-                'value' => '<p>Sistema para el levantamiento de casos <strong>COVID-19</strong> por parte de laboratorios, con su posterior seguimiento y levantamiento de avisos y eventos. Cuenta con geolocalizaci&oacute;n de casos, adem&aacute;s de asignaci&oacute;n de residencias sanitarias para pacientes.</p>',
+                'value' => '<p>Sistema para la gestión de casos <strong>COVID-19</strong> por parte de laboratorios, con su posterior seguimiento y levantamiento de avisos y eventos. Cuenta con geolocalizaci&oacute;n de casos, adem&aacute;s de asignaci&oacute;n de residencias sanitarias para pacientes.</p>',
                 'details' => '',
                 'type' => 'rich_text_box',
                 'order' => 2,

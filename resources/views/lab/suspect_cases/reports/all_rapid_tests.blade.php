@@ -1,10 +1,10 @@
 @extends('layouts.app')
 
-@section('title', 'Listado de Test Rápido ' )
+@section('title', 'Listado de test rápido' )
 
 @section('content')
 
-<h3 class="mb-3">Listado de Test Rápido</h3>
+<h3 class="mb-3">Listado de test rápido</h3>
 
 <table class="table table-sm table-bordered">
     <thead>

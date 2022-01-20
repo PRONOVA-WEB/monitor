@@ -148,13 +148,13 @@
                 </div>
 <!--**********************************-->
                 <div class="row align-items-center">
-                    @can('Patient: edit')                    
+                    @can('Patient: edit')
                       <div class="col-4 col-sm-2 col-md-2 col-lg-2">
                         <button type="submit" class="btn btn-primary">Guardar</button>
                       </div>
                     @endcan
 
-                    @can('Patient: show')                    
+                    @can('Patient: show')
                       <div class="col-4 col-sm-2 col-md-2 col-lg-2">
                         <button type="button" onclick="history.back()" class="btn btn-secondary">Volver</button>
                       </div>
@@ -347,7 +347,7 @@
 
         <div class="card">
             <div class="card-body">
-                <h4 class="mt-4">Test Rápido</h4>
+                <h4 class="mt-4">Test rápido</h4>
 
             @can('Rapid Test: create')
                 <!-- <a class="btn btn-primary btn-sm" href="{{ route('lab.inmuno_tests.create', 'search_false') }}">
@@ -400,7 +400,7 @@
 
         <div class="card">
             <div class="card-body">
-                <h4 class="mt-3">Evaluación Residencia Sanitaria </h4>
+                <h4 class="mt-3">Evaluación residencia sanitaria </h4>
 
                 <a class="btn btn-primary btn-sm" href="{{ route('sanitary_residences.admission.create', $patient) }}"
                    onclick="return confirm('Recuerde que tiene que llenar los datos de contactos si es que tuviese antes de proceder con la encuesta' )">
@@ -513,6 +513,8 @@
     <script src="https://js.api.here.com/v3/3.1/mapsjs-core.js" type="text/javascript" charset="utf-8"></script>
     <script src="https://js.api.here.com/v3/3.1/mapsjs-service.js" type="text/javascript" charset="utf-8"></script>
 
+    <script src='{{asset("js/jquery.rut.chileno.js")}}'></script>
+
     <script type="text/javascript">
 
         jQuery(document).ready(function () {
@@ -594,6 +596,39 @@
                     });
                 }
 
+            });
+
+            //obtiene digito verificador
+            $('input[name=run]').keyup(function(e) {
+                var str = $("#for_run").val();
+                $('#for_dv').val($.rut.dv(str));
+            });
+
+            $('#btn_fonasa').click(function() {
+                var btn = $(this);
+                btn.prop('disabled',true);
+
+                var run = $("#for_run").val();
+                var dv  = $("#for_dv").val();
+                var url = '{{route('webservices.fonasa')}}/?run='+run+'&dv='+dv;
+
+                $.getJSON(url, function(data) {
+                    if(data){
+                        document.getElementById("for_name").value = data.name;
+                        document.getElementById("for_fathers_family").value = data.fathers_family;
+                        document.getElementById("for_mothers_family").value = data.mothers_family;
+                        // document.getElementById("for_gender").value = data.gender;
+                        document.getElementById("for_birthday").value = data.birthday;
+                    } else {
+                        document.getElementById("for_name").value = "";
+                        document.getElementById("for_fathers_family").value = "";
+                        document.getElementById("for_mothers_family").value = "";
+                        // document.getElementById("for_gender").value = "";
+                        document.getElementById("for_birthday").value = "";
+                    }
+            }).done(function() {
+                    btn.prop('disabled',false);
+                });
             });
 
             //Run y otra identificación excluyentes

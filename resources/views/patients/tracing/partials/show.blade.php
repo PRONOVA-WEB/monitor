@@ -62,7 +62,7 @@
                 <!--**********************************-->
                 <hr>
 
-                <h4 class="mt-4">Ficha de Seguimiento</h4>
+                <h4 class="mt-4">Ficha de seguimiento</h4>
                 <div class="form-row">
                     <fieldset class="form-group col-5 col-sm-3 col-md-2 col-lg-1 order-1 order-lg-1">
                         <label for="for_index">Indice *</label>

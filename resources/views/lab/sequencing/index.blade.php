@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Listado de Pacientes Candidatos a Secuenciación')
+@section('title', 'Listado de pacientes candidatos a secuenciación')
 
 @section('content')
 <ul class="nav nav-tabs mb-3 d-print-none">
@@ -17,7 +17,7 @@
     </li>
 </ul>
 @if(isset($send))
-<h3 class="mb-3"><i class="fas fa-plane-departure"></i> Listado de Pacientes Candidato Enviado a Secuenciación</h3>
+<h3 class="mb-3"><i class="fas fa-plane-departure"></i> Listado de pacientes candidato enviado a secuenciación</h3>
 <a type="button" class="btn btn-success mb-3" id="downloadLink" onclick="exportF(this)">Descargar Excel
     <i class="far fa-file-excel"></i></a>
 @else

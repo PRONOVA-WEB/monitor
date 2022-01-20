@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
-@section('title', 'Reporte Casos Positivos')
+@section('title', 'Reporte casos positivos')
 
 @section('content')
-<h3 class="mb-3">Reporte Casos Positivos</h3>
+<h3 class="mb-3">Reporte casos positivos</h3>
 
 <div class="row">
     <div class="col-12 col-md-4 mb-3">

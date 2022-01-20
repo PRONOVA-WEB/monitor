@@ -1139,7 +1139,7 @@ class SuspectCaseReportController extends Controller
         // }else{
         //     //marcar el mensaje como pendiente
         // }
-        
+
     }
 
     public function case_chart(Request $request)
@@ -1226,8 +1226,7 @@ class SuspectCaseReportController extends Controller
             $to = Carbon::now();
         }
 
-        $communes_ids = array_map('trim', explode(",", env('COMUNAS')));
-        $communes = Commune::whereIn('id', $communes_ids)->get();
+        $communes = Commune::whereIn('id', getCommunes())->get();
 
         $selectedCommune = $request->get('commune');
 
@@ -1357,11 +1356,11 @@ class SuspectCaseReportController extends Controller
         foreach ($events_type as $key => $type) {
             $events_resume[$type->name] = 0;
         }
-        $events_resume['total'] = 0;
+        $events_resume['Total'] = 0;
 
         foreach ($events as $key => $event) {
             $events_resume[$event->type->name] += 1;
-            $events_resume['total'] += 1;
+            $events_resume['Total'] += 1;
         }
         /* ----------------------------------------------------------------- */
 
@@ -1566,8 +1565,8 @@ class SuspectCaseReportController extends Controller
                     }
                 })
                 ->where('laboratory_id', Auth::user()->laboratory_id)
-                ->where('reception_at', NULL)
-                ->where('pcr_sars_cov_2', 'pending')
+                //->where('reception_at', NULL)
+                //->where('pcr_sars_cov_2', 'pending')
                 ->latest()
                 ->get();
                 //dd($suspectCases);
