@@ -1093,41 +1093,6 @@ class SuspectCaseController extends Controller
         }
     }
 
-
-    public function historical_report(Request $request)
-    {
-        if($request->has('date')){
-            $date = $request->get('date');
-        } else {
-            $date = Carbon::now();
-        }
-
-        $reportBackup = ReportBackup::whereDate('created_at',$date)->get();
-
-        if($reportBackup->count() <> 0){
-            if($reportBackup->first()->id <= 10){
-                $html = json_decode($reportBackup->first()->data, true);
-            }else{
-                $html = $reportBackup->first()->data;
-            }
-
-            $begin = strpos($html, '<main class="py-4 container">')+29;
-            $v1 = substr($html, $begin, 999999);
-            $end   = strpos($v1, '</main>')-7;
-            $main = substr($v1, 0, $end);
-
-            $begin = strpos($html, '<head>')+6;
-            $v1 = substr($html, $begin, 999999);
-            $end   = strpos($v1, '</head>');
-            $head = substr($v1, 0, $end);
-        }else{
-            $head="";
-            $main="";
-        }
-
-        return view('lab.suspect_cases.reports.historical_report', compact('head','main','date'));
-    }
-
     public function diary_by_lab_report(Request $request)
     {
         $start = microtime(true);

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Excel;
 
 class TestController extends Controller
 {
@@ -72,5 +73,24 @@ class TestController extends Controller
         echo '<pre>';
         print_r($result);
         print_r(json_encode($user,JSON_UNESCAPED_UNICODE));
+    }
+
+    public function covidCases() {
+
+        //$casos = Excel::toArray(new \stdClass(), \Storage::get('covidCases.csv'),);
+
+        $casos = [];
+
+        if (($open = fopen('https://raw.githubusercontent.com/MinCiencia/Datos-COVID19/master/output/producto1/Covid-19_std.csv', "r")) !== FALSE) {
+
+            while (($data = fgetcsv($open, 1000, ",")) !== FALSE) {
+                $casos[] = $data;
+            }
+
+            fclose($open);
+        }
+
+        echo "<pre>";
+        print_r($casos);
     }
 }

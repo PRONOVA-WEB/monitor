@@ -35,7 +35,7 @@ use App\User;
 
 class SuspectCaseReportController extends Controller
 {
-    public function positives()
+    public function positives($history = null)
     {
         // set_time_limit(3600);
 
@@ -45,14 +45,14 @@ class SuspectCaseReportController extends Controller
         $communes = Commune::whereIn('id', $communes_ids)->get();
 
         /* Consulta base para las demás consultas de pacientes*/
-        $patients = Patient::whereHas('suspectCases', function ($q) {
+        $patients =(!is_null($history)) ? Patient::getPatientsByDay($history) : Patient::whereHas('suspectCases', function ($q) {
             $q->where('pcr_sars_cov_2', 'positive');
         })->whereHas('demographic', function ($q) use ($communes_ids) {
             $q->whereIn('commune_id', $communes_ids);
         });
 
         /* Valida que existan casos positivos */
-        if ($patients->count() == 0) {
+        if ($patients->count() == 0 && is_null($history)) {
             session()->flash('info', 'No existen casos positivos o no hay casos con dirección.');
             return redirect()->route('home');
         }
@@ -83,7 +83,19 @@ class SuspectCaseReportController extends Controller
         /* Casos por comuna */
         $casesByCommuneArray = $this->getCasesByCommune($communes);
 
-        return view('lab.suspect_cases.reports.positives', compact('evolucion', 'ventilator', 'exams', 'communes', 'ageRangeArray', 'casosTotalesArray', 'totalDeceasedArray', 'casesByCommuneArray', 'UciPatients'));
+        return view('lab.suspect_cases.reports.positives', compact('evolucion', 'ventilator', 'exams', 'communes', 'ageRangeArray', 'casosTotalesArray', 'totalDeceasedArray', 'casesByCommuneArray', 'UciPatients', 'history'));
+    }
+
+
+    public function historical_report(Request $request)
+    {
+        if($request->has('date')){
+            $history = $request->get('date');
+        } else {
+            $history = Carbon::today()->toDateString();
+        }
+
+        return $this->positives($history);
     }
 
     /**

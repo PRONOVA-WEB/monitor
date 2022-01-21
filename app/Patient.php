@@ -226,7 +226,17 @@ class Patient extends Model implements Auditable //Authenticatable
               return $patients;
         }// End getPatientsBySearch
 
+    public static function getPatientsByDay($day) {
 
+        $communes_ids = getCommunes();
+        return Patient::whereHas('suspectCases', function ($q) use ($day) {
+            $q->where('pcr_sars_cov_2', 'positive')
+            ->whereDate('sample_at',$day);
+        })->whereHas('demographic', function ($q) use ($communes_ids) {
+            $q->whereIn('commune_id', $communes_ids);
+        })->get();
+
+    }
 
 
 }

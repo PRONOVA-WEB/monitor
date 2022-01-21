@@ -27,6 +27,7 @@ Route::get('/adddata', function () {
 });
 
 Route::get('test/fonasa', 'TestController@fonasa');
+Route::get('test/covid', 'TestController@covidCases');
 
 Route::prefix('webservices')->name('webservices.')->group(function () {
     Route::get('fonasa', 'WebserviceController@fonasa')->middleware('auth')->name('fonasa');
@@ -271,7 +272,7 @@ Route::prefix('lab')->name('lab.')->group(function () {
         });
         Route::prefix('report')->name('report.')->group(function () {
             Route::get('/','SuspectCaseReportController@positives')->name('index')->middleware('auth','can:Report: other');
-            Route::get('historical_report','SuspectCaseController@historical_report')->name('historical_report')->middleware('auth','can:Report: historical');
+            Route::get('historical_report','SuspectCaseReportController@historical_report')->name('historical_report')->middleware('auth','can:Report: historical');
             Route::get('/minsal-export/{laboratory}','SuspectCaseController@exportMinsalExcel')->name('exportMinsal')->middleware('auth');
             Route::get('/seremi-export/{laboratory}','SuspectCaseController@exportSeremiExcel')->name('exportSeremi')->middleware('auth');
             Route::get('/ws_minsal','SuspectCaseReportController@ws_minsal')->name('ws_minsal')->middleware('auth');

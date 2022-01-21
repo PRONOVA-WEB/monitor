@@ -22,7 +22,6 @@
         "laraveles/spanish": "^1.5",
         "maatwebsite/excel": "^3.1",
         "milon/barcode": "^8.0",
-        "nao-pon/flysystem-google-drive": "~1.1",
         "owen-it/laravel-auditing": "^10.0",
         "spatie/laravel-permission": "^3.11"
     },
