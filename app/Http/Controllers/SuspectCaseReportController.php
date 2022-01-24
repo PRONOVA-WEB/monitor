@@ -1156,12 +1156,6 @@ class SuspectCaseReportController extends Controller
                 //obtiene ftp
                 // $content = Storage::disk('ftp')->download('readme.txt');
 
-<<<<<<< HEAD
-        // }else{
-        //     //marcar el mensaje como pendiente
-        // }
-
-=======
                 //enviar por pntm
                 // if ($foundSuspectCase->pcr_result_added_at == null) {
                 //     $response = WSMinsal::resultado_muestra($foundSuspectCase);
@@ -1191,7 +1185,6 @@ class SuspectCaseReportController extends Controller
             $hl7ResultMessage->update(['status' => 'case_not_found']);
         }
 
->>>>>>> 582510e94f4c0e41c67e2172700b38101398df9f
     }
 
     public function case_chart(Request $request)
@@ -1752,11 +1745,14 @@ class SuspectCaseReportController extends Controller
         return view('lab.suspect_cases.reports.all_rapid_tests', compact('rapidtests'));
     }
 
-    public function MinciCovidCases() {
+    public function MinciCovidCasesByCommune() {
         $cases = \App\MinciProducto1Std::where('date','>=',Carbon::now()->subDays(30)->toDateString())->get();
         return view('lab.suspect_cases.reports.minci.covid_cases', compact('cases'));
     }
 
-
+    public function MinciNationalTotals() {
+        $items = \App\MinciProducto5Std::orderBy('date','desc')->limit('19')->get();
+        return view('lab.suspect_cases.reports.minci.national_totals', compact('items'));
+    }
 
 }

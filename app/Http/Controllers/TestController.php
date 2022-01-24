@@ -80,31 +80,35 @@ class TestController extends Controller
 
         $casos = [];
 
-        if (($open = fopen('https://raw.githubusercontent.com/MinCiencia/Datos-COVID19/master/output/producto1/Covid-19_std.csv', "r")) !== FALSE) {
+        $producto1 = 'https://raw.githubusercontent.com/MinCiencia/Datos-COVID19/master/output/producto1/Covid-19_std.csv'; // casos acumulados por comuna
+        $producto5 = 'https://raw.githubusercontent.com/MinCiencia/Datos-COVID19/master/output/producto5/TotalesNacionales_std.csv'; // totales nacionales
+        if (($open = fopen($producto5, "r")) !== FALSE) {
 
             while (($data = fgetcsv($open, 0, ",")) !== FALSE) {
                 $casos[] = $data;
+
             }
 
             fclose($open);
         }
-
+        // dd(array_slice($casos, 1)[0][5]);
         // echo "<pre>";
         // dd(array_slice($casos, 1));
-        \DB::table('minci_producto1_std')->delete();
+        \DB::table('minci_producto5_std')->delete();
 
         foreach (array_slice($casos, 1) as $item) {
-            \App\MinciProducto1Std::create(
-                [
-                'region' => $item[0],
-                'region_code' => $item[1],
-                'commune' => $item[2],
-                'commune_code' => $item[3],
-                'population' => $item[4],
-                'date' => $item[5],
-                'commit_cases' => $item[6]
-                ]
-            );
+
+            if($item[1] >= \Carbon\Carbon::now()->subDays(3)->toDateString()) {
+                \App\MinciProducto5Std::create(
+                    [
+                    'item' => $item[0],
+                    'date' => $item[1],
+                    'total' => $item[2]
+                    ]
+                );
+            }
+
+
         }
 
     }

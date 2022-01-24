@@ -18,7 +18,7 @@ class MinciCovidCases extends Command
      *
      * @var string
      */
-    protected $description = 'Populate minci_producto1_std table';
+    protected $description = 'Populate minci_producto1_std,minci_producto5_std  tables';
 
     /**
      * Create a new command instance.
@@ -39,31 +39,61 @@ class MinciCovidCases extends Command
     {
         ini_set('max_execution_time', '360');
 
-        $casos = [];
+        $producto1 = 'https://raw.githubusercontent.com/MinCiencia/Datos-COVID19/master/output/producto1/Covid-19_std.csv'; // casos acumulados por comuna
+        $producto5 = 'https://raw.githubusercontent.com/MinCiencia/Datos-COVID19/master/output/producto5/TotalesNacionales_std.csv'; // totales nacionales
 
-        if (($open = fopen('https://raw.githubusercontent.com/MinCiencia/Datos-COVID19/master/output/producto1/Covid-19_std.csv', "r")) !== FALSE) {
-
+        //producto1
+        $casos1 = [];
+        if (($open = fopen($producto1, "r")) !== FALSE) {
+            \DB::table('minci_producto1_std')->delete();
             while (($data = fgetcsv($open, 0, ",")) !== FALSE) {
-                $casos[] = $data;
+                $casos1[] = $data;
             }
 
             fclose($open);
         }
 
-        \DB::table('minci_producto1_std')->delete();
+        foreach (array_slice($casos1, 1) as $item) {
 
-        foreach (array_slice($casos, 1) as $item) {
-            \App\MinciProducto1Std::create(
-                [
-                'region' => $item[0],
-                'region_code' => $item[1],
-                'commune' => $item[2],
-                'commune_code' => $item[3],
-                'population' => $item[4],
-                'date' => $item[5],
-                'commit_cases' => $item[6]
-                ]
-            );
+            if($item[5] >= \Carbon\Carbon::now()->subDays(30)->toDateString()) {
+                \App\MinciProducto1Std::create(
+                    [
+                    'region' => $item[0],
+                    'region_code' => $item[1],
+                    'commune' => $item[2],
+                    'commune_code' => $item[3],
+                    'population' => $item[4],
+                    'date' => $item[5],
+                    'commit_cases' => $item[6]
+                    ]
+                );
+            }
+
+        }
+
+        //tabla producto5
+        $casos5 = [];
+        if (($open = fopen($producto5, "r")) !== FALSE) {
+            \DB::table('minci_producto5_std')->delete();
+            while (($data = fgetcsv($open, 0, ",")) !== FALSE) {
+                $casos5[] = $data;
+            }
+
+            fclose($open);
+        }
+
+        foreach (array_slice($casos5, 1) as $item) {
+
+            if($item[1] >= \Carbon\Carbon::now()->subDays(3)->toDateString()) {
+                \App\MinciProducto5Std::create(
+                    [
+                    'item' => $item[0],
+                    'date' => $item[1],
+                    'total' => $item[2]
+                    ]
+                );
+            }
+
         }
     }
 }

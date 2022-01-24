@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMinciProducto1StdTable extends Migration
+class CreateMinciProducto5StdTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,11 @@ class CreateMinciProducto1StdTable extends Migration
      */
     public function up()
     {
-        Schema::create('minci_producto1_std', function (Blueprint $table) {
+        Schema::create('minci_producto5_std', function (Blueprint $table) {
             $table->id();
-            $table->string('region');
-            $table->string('region_code');
-            $table->string('commune');
-            $table->string('commune_code');
-            $table->string('poppulation');
+            $table->string('item');
             $table->date('date');
-            $table->date('commit_cases');
+            $table->string('total');
             $table->timestamps();
         });
     }
@@ -33,6 +29,6 @@ class CreateMinciProducto1StdTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('_minci_producto1_std');
+        Schema::dropIfExists('minci_producto5_std');
     }
 }

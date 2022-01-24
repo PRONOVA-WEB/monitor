@@ -6,13 +6,25 @@
     </button>
     <!-- Topbar Navbar -->
     <ul class="navbar-nav ml-auto">
+        <li class="nav-item dropdown no-arrow mx-1">
+            <a class="nav-link text-gray-700" href="{{ route('lab.suspect_cases.reports.minci.national_totals') }}">
+                <i class="fas fa-address-book fa-fw" title="Totales nacionales"></i> Totales nacionales
+            </a>
+
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-gray-700" href="{{ route('lab.suspect_cases.reports.minci.covid_cases_by_commmune') }}">
+                <i class="fas fa-calendar-alt fa-fw" title="Casos acumulados"></i> Casos acumulados
+            </a>
+        </li>
+        <div class="topbar-divider d-none d-sm-block"></div>
         <!-- Nav Item - User Information -->
         <li class="nav-item dropdown no-arrow">
             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span
                     class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Auth::user()->name }}</span>
-                    <i class="fas fa-user fa-fw" title="Calendarios"></i>
+                    <i class="fas fa-user fa-fw"></i>
             </a>
             <!-- Dropdown - User Information -->
             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
