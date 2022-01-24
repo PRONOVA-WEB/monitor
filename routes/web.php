@@ -27,7 +27,7 @@ Route::get('/adddata', function () {
 });
 
 Route::get('test/fonasa', 'TestController@fonasa');
-Route::get('test/covid', 'TestController@covidCases');
+// Route::get('test/covid', 'TestController@covidCases');
 
 Route::prefix('webservices')->name('webservices.')->group(function () {
     Route::get('fonasa', 'WebserviceController@fonasa')->middleware('auth')->name('fonasa');
@@ -268,6 +268,10 @@ Route::prefix('lab')->name('lab.')->group(function () {
             Route::get('/cases_by_ids_index','SuspectCaseReportController@casesByIdsIndex')->name('cases_by_ids_index')->middleware('auth');
             Route::post('/export_excel_by_cases_ids','SuspectCaseReportController@exportExcelByCasesIds')->name('export_excel_by_cases_ids')->middleware('auth');
             Route::get('/allrapidtests','SuspectCaseReportController@allRapidTests')->name('all_rapid_tests')->middleware('auth');
+
+            Route::prefix('minci')->name('minci.')->group(function () {
+                Route::get('covid_cases','SuspectCaseReportController@MinciCovidCases')->name('covid_cases')->middleware('auth');
+            });
 
         });
         Route::prefix('report')->name('report.')->group(function () {

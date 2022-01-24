@@ -13,7 +13,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        Commands\MinciCovidCases::class
     ];
 
     /**
@@ -24,7 +24,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        //
+        $schedule->command('minci:covidcases')
+            ->dailyAt('23:59')
+            ->timezone('America/Santiago');
     }
 
     /**

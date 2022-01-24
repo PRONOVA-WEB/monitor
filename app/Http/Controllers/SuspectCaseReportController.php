@@ -1708,10 +1708,13 @@ class SuspectCaseReportController extends Controller
 
     public function allRapidTests()
     {
-
-
         $rapidtests = RapidTest::all();
         return view('lab.suspect_cases.reports.all_rapid_tests', compact('rapidtests'));
+    }
+
+    public function MinciCovidCases() {
+        $cases = \App\MinciProducto1Std::where('date','>=',Carbon::now()->subDays(30)->toDateString())->get();
+        return view('lab.suspect_cases.reports.minci.covid_cases', compact('cases'));
     }
 
 
