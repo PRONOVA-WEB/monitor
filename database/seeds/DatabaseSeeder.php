@@ -24,6 +24,8 @@ class DatabaseSeeder extends Seeder
         $this->call(EventTypeSeeder::class);
         $this->call(RequestTypeSeeder::class);
         $this->call(SettingSeeder::class);
+        $this->call(MinciProducto1StdSeeder::class);
+
         if(env('APP_ENV') == 'testing') {
             $this->call(PatientSeeder::class);
             $this->call(DemographicSeeder::class);

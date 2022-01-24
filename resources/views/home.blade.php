@@ -8,7 +8,7 @@
         <div class="col-md-12">
             <div class="card bg-light">
                 <div class="card-header text-center">
-                    <h4>Bienvenido al sistema {{ settings('site.title') }}</h4>
+                    <h4>Bienvenid@ al sistema {{ settings('site.title') }}</h4>
                 </div>
                 <div class="card-body">
                     {!! settings('site.description') !!}

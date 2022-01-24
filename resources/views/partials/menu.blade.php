@@ -147,15 +147,6 @@
     </li>
     @endcan
 
-    @can('Epp: list')
-    <li class="nav-item {{ active(['epp.index']) }}">
-        <a class="nav-link" href="{{ route('epp.index') }}">
-            <i class="fas fa-head-side-mask"></i>
-            <span>EPP</span>
-        </a>
-    </li>
-    @endcan
-
     @canany(['SanitaryResidence: user', 'SanitaryResidence: admin' ,'SanitaryResidence: admission', 'Report: residences','SanitaryResidence: view'] )
 
     <li class="nav-item {{ active(['sanitary_residences.*']) }}">

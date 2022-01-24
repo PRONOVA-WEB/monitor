@@ -8,13 +8,13 @@
     <ul class="navbar-nav ml-auto">
         <li class="nav-item dropdown no-arrow mx-1">
             <a class="nav-link text-gray-700" href="{{ route('lab.suspect_cases.reports.minci.national_totals') }}">
-                <i class="fas fa-address-book fa-fw" title="Totales nacionales"></i> Totales nacionales
+                <i class="fas fa-thermometer-quarter fa-fw" aria-hidden="true"> </i> Totales nacionales
             </a>
 
         </li>
         <li class="nav-item">
             <a class="nav-link text-gray-700" href="{{ route('lab.suspect_cases.reports.minci.covid_cases_by_commmune') }}">
-                <i class="fas fa-calendar-alt fa-fw" title="Casos acumulados"></i> Casos acumulados
+                <i class="fas fa-signal fa-fw" title="Casos acumulados"></i> Casos acumulados
             </a>
         </li>
         <div class="topbar-divider d-none d-sm-block"></div>

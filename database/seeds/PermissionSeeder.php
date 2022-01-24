@@ -212,11 +212,6 @@ class PermissionSeeder extends Seeder
         ]);
 
         $permission = Permission::create([
-            'name' => 'Epp: list',
-            'description' => 'Movimientos de EPP'
-        ]);
-
-        $permission = Permission::create([
             'name' => 'Rapid Test: list',
             'description' => 'Permite listar Test Rápido'
         ]);

@@ -13,23 +13,12 @@ class LaboratorySeeder extends Seeder
     public function run()
     {
         $lab = new Laboratory();
-        $lab->name = 'HETG';
-        $lab->alias = 'HETG';
+        $lab->name = 'ÚNICO';
+        $lab->alias = 'ÚNICO';
         $lab->external = 0;
         $lab->minsal_ws = 1;
         $lab->token_ws = "AK026-88QV-000QAQQCI-000000B8EJTK";
         $lab->pdf_generate = 0;
-        $lab->cod_deis = "102100";
-        $lab->commune_id = 90;
-        $lab->save();
-
-        $lab = new Laboratory();
-        $lab->name = 'UNAP';
-        $lab->alias = 'UNAP';
-        $lab->external = 0;
-        $lab->minsal_ws = 1;
-        $lab->token_ws = "AK026-88QV-000QAQQCI-000000B8EJTK";
-        $lab->pdf_generate = 1;
         $lab->cod_deis = "102100";
         $lab->commune_id = 90;
         $lab->save();
