@@ -30,6 +30,7 @@ use App\Hl7ResultMessage;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 use App\User;
 
@@ -915,19 +916,29 @@ class SuspectCaseReportController extends Controller
     {
         set_time_limit(3600);
 
-        $from = '2020-10-30 08:35:23'; //date("Y-m-d 21:00:00", time() - 60 * 60 * 24);
+        $from = '2022-01-20 14:15:00'; //date("Y-m-d 21:00:00", time() - 60 * 60 * 24);
         $errors = '';
 
-        $case = SuspectCase::find('114122');
+        // $case = SuspectCase::find('114122');
+        // dump($case);
 
-        dump($case);
+        $casosCreados = SuspectCase::whereNull('minsal_ws_id')
+            ->whereNull('external_laboratory')
+            //->whereNull('reception_at')
+            ->where('created_at', '>=', $from)
+            ->whereHas('laboratory', function ($q){
+              $q->where('minsal_ws', 1);
+            })
+            ->get();
 
-//        foreach ($casosCreados as $case){
+        // dd($casosCreados);
+
+       foreach ($casosCreados as $case){
             $response = WSMinsal::crea_muestra_v2($case);
             if ($response['status'] == 0) {
                 $errors = $errors . "case: " .$case->id . " " . $response['msg'] . "<br>";
             }
-//        }
+       }
 
         if($errors){
             session()->flash('info', $errors);
@@ -948,7 +959,7 @@ class SuspectCaseReportController extends Controller
     {
         set_time_limit(3600);
 
-        $from = '2020-11-10 20:05:17'; //date("Y-m-d 21:00:00", time() - 60 * 60 * 24);
+        $from = '2022-01-20 14:15:00'; //date("Y-m-d 21:00:00", time() - 60 * 60 * 24);
         $errors = '';
 
         $casosRecepcionados = SuspectCase::whereNotNull('minsal_ws_id')
@@ -990,8 +1001,8 @@ class SuspectCaseReportController extends Controller
     {
         set_time_limit(3600);
 
-        $from = '2020-11-10 23:30:00';
-        $to = '2020-11-11 17:02:53';
+        $from = '2022-01-20 14:15:00';
+        $to = '2022-01-21 09:30:00';
         $errors = '';
 
         $casosConResultado = SuspectCase::whereNotNull('minsal_ws_id')
@@ -1099,59 +1110,88 @@ class SuspectCaseReportController extends Controller
         $hl7ResultMessage->observation_datetime = $pcrSarsCov2At;
         $hl7ResultMessage->observation_value = $pcrSarsCov2;
         $hl7ResultMessage->sample_observation_datetime = $sampleAt;
+        $hl7ResultMessage->status = 'pending';
         $hl7ResultMessage->save();
 
-        Log::channel('incoming_hl7')->info('Names:' . $patientNames . PHP_EOL .
-                                            'familyFather:' . $patientFamilyFather . PHP_EOL .
-                                            'familyMother:' . $patientFamilyMother . PHP_EOL .
-                                            'pcrSarsCov2At:' . $pcrSarsCov2At . PHP_EOL .
-                                            'pcrSarsCov2:' . $pcrSarsCov2 . PHP_EOL .
-                                            'sampleAt:' . $sampleAt . PHP_EOL);
+        // Log::channel('incoming_hl7')->info('Names:' . $patientNames . PHP_EOL .
+        //                                     'familyFather:' . $patientFamilyFather . PHP_EOL .
+        //                                     'familyMother:' . $patientFamilyMother . PHP_EOL .
+        //                                     'pcrSarsCov2At:' . $pcrSarsCov2At . PHP_EOL .
+        //                                     'pcrSarsCov2:' . $pcrSarsCov2 . PHP_EOL .
+        //                                     'sampleAt:' . $sampleAt . PHP_EOL);
 
-        // if (strtoupper($pcrSarsCov2) == "Negativo") {
-        //     $pcrSarsCov2 = "negative";
-        // }
-        // if (strtoupper($pcrSarsCov2) == "Positivo") {
-        //     $pcrSarsCov2 = "positive";
-        // }
-        // if (strtoupper($pcrSarsCov2) == "Rechazado") {
-        //     $pcrSarsCov2 = "rejected";
-        // }
-        // if (strtoupper($pcrSarsCov2) == "Indeterminado") {
-        //     $pcrSarsCov2 = "undetermined";
-        // }
-        // // if(strtoupper($pcrSarsCov2) == "PENDIENTE"){$pcrSarsCov2 = "pending";}
+        if ($pcrSarsCov2 == "Negativo") {
+            $pcrSarsCov2 = "negative";
+        }
+        if ($pcrSarsCov2 == "Positivo") {
+            $pcrSarsCov2 = "positive";
+        }
+        if ($pcrSarsCov2 == "Rechazado") {
+            $pcrSarsCov2 = "rejected";
+        }
+        if ($pcrSarsCov2 == "Indeterminado") {
+            $pcrSarsCov2 = "undetermined";
+        }
+        // if(strtoupper($pcrSarsCov2) == "PENDIENTE"){$pcrSarsCov2 = "pending";}
 
-        // $suspectCases = SuspectCase::whereHas('patient', function ($q) use ($patientFamilyFather, $patientFamilyMother, $patientNames) {
-        //     $q->where('fathers_family', 'LIKE', '%' . $patientFamilyFather . '%')
-        //         ->where('mothers_family', 'like', '%' . $patientFamilyMother . '%')
-        //         ->where('name', 'like', '%' . $patientNames . '%');
-        //     })
-        //     ->whereDate('sample_at', $sampleAt->toDateString())
-        //     ->where('pcr_sars_cov_2', 'pending');
-        //     // ->orderBy('updated_at', 'desc')->first();
+        $suspectCases = SuspectCase::whereHas('patient', function ($q) use ($patientFamilyFather, $patientFamilyMother, $patientNames) {
+            $q->where('fathers_family', 'LIKE', '%' . $patientFamilyFather . '%')
+                ->where('mothers_family', 'like', '%' . $patientFamilyMother . '%')
+                ->where('name', 'like', '%' . $patientNames . '%');
+            })
+            ->where('pcr_sars_cov_2', 'pending');
+            // ->whereDate('sample_at', $sampleAt->toDateString())
 
-        // if($suspectCases != null){
-        //     if($suspectCases->count() === 1){
-        //         $suspectCases->first()->pcr_sars_cov_2 = $pcrSarsCov2;
-        //         $suspectCases->first()->pcr_sars_cov_2_at = $pcrSarsCov2At;
-        //         $suspectCases->first()->hl7_message_id = $messageId;
-        //         $suspectCases->first()->save();
+        if($suspectCases != null){
+            if($suspectCases->count() === 1){
+                $foundSuspectCase = $suspectCases->first();
+                // $foundSuspectCase->pcr_sars_cov_2 = $pcrSarsCov2;
+                // $foundSuspectCase->pcr_sars_cov_2_at = $pcrSarsCov2At;
+                $foundSuspectCase->hl7_result_message_id = $hl7ResultMessage->id;
+                $foundSuspectCase->save();
 
-        //         //enviar por pntm
-        //         //marcar mensaje listo
+                $hl7ResultMessage->status = 'assigned_to_case';
+                $hl7ResultMessage->save();
 
-        //     }
-        //     elseif($suspectCases->count() >= 1){
-        //         $suspectCases->update(['hl7_message_id', $messageId]);
-        //     }elseif($suspectCases->count() === 0){
-        //         //marcar el mensaje como pendiente
-        //     }
+                //obtiene ftp
+                // $content = Storage::disk('ftp')->download('readme.txt');
 
+<<<<<<< HEAD
         // }else{
         //     //marcar el mensaje como pendiente
         // }
 
+=======
+                //enviar por pntm
+                // if ($foundSuspectCase->pcr_result_added_at == null) {
+                //     $response = WSMinsal::resultado_muestra($foundSuspectCase);
+                //     if ($response['status'] == 0) {
+                //         $foundSuspectCase->ws_pntm_mass_sending = false;
+                //         $foundSuspectCase->pcr_result_added_at = null;
+                //         $foundSuspectCase->save();
+                //         session()->flash('info', 'Error al subir resultado de muestra ' . $foundSuspectCase->id . ' en MINSAL. ' . $response['msg']);
+                //         return view('lab.suspect_cases.import_results');
+                //     }
+                //     if ($response['status'] == 1) {
+                //         $foundSuspectCase->ws_pntm_mass_sending = true;
+                //         $foundSuspectCase->pcr_result_added_at = Carbon::now();
+                //         $foundSuspectCase->save();
+                //     }
+                // }
+
+            }
+            elseif($suspectCases->count() >= 1){
+                $suspectCases->update(['hl7_result_message_id' => $hl7ResultMessage->id]);
+                $hl7ResultMessage->update(['status' => 'too_many_cases']);
+            }elseif($suspectCases->count() === 0){
+                $hl7ResultMessage->update(['status' => 'case_not_found']);
+            }
+
+        }else{
+            $hl7ResultMessage->update(['status' => 'case_not_found']);
+        }
+
+>>>>>>> 582510e94f4c0e41c67e2172700b38101398df9f
     }
 
     public function case_chart(Request $request)

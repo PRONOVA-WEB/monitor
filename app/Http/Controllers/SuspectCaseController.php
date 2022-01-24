@@ -1703,7 +1703,8 @@ class SuspectCaseController extends Controller
             'semanas_gestacion',
             'presenta_sintomatología',
             'fecha_inicio_síntomas',
-            'teléfono'
+            'teléfono',
+            'ws minsal'
 //            'sem',
 //            'epivigila',
 //            'fecha de resultado',
@@ -1739,7 +1740,8 @@ class SuspectCaseController extends Controller
                     $fila->gestation_week,
                     ($fila->symptoms === NULL) ? '' : (($fila->symptoms === 1) ? 'Si' : 'No'),
                     $fila->symptoms_at,
-                    ($fila->patient && $fila->patient->demographic) ? $fila->patient->demographic->telephone : ''
+                    ($fila->patient && $fila->patient->demographic) ? $fila->patient->demographic->telephone : '',
+                    $fila->minsal_ws_id
 //                    $fila->epidemiological_week,
 //                    $fila->epivigila,
 //                    $fila->pcr_sars_cov_2_at,
@@ -2263,6 +2265,12 @@ class SuspectCaseController extends Controller
 //        return redirect()->route('lab.bulk_load_from_pntm.index');
 //    }
 
+    /**
+     * Importa planilla de resultados, genera pdf y carga a pntm si requiere.
+     *
+     * @param Request $request
+     * @return void
+     */
     public function results_import(Request $request){
         $file = $request->file('file');
         $patientsCollection = Excel::toCollection(new PatientImport, $file);
