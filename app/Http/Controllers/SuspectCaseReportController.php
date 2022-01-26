@@ -31,6 +31,7 @@ use Illuminate\Support\Str;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use App\Hl7ErrorMessage;
 
 use App\User;
 
@@ -1092,6 +1093,8 @@ class SuspectCaseReportController extends Controller
      */
     public function getHl7Files(Request $request)
     {
+
+        $patientIdentifier = $request->input('patient_identifier');
         $patientNames = $request->input('patient_names');
         $patientFamilyFather = $request->input('patient_family_father');
         $patientFamilyMother = $request->input('patient_family_mother');
@@ -1104,6 +1107,7 @@ class SuspectCaseReportController extends Controller
         $hl7ResultMessage = new Hl7ResultMessage();
         $hl7ResultMessage->full_message = $fullMessage;
         $hl7ResultMessage->message_id = $messageId;
+        $hl7ResultMessage->patient_identifier = $patientIdentifier;
         $hl7ResultMessage->patient_names = $patientNames;
         $hl7ResultMessage->patient_family_father = $patientFamilyFather;
         $hl7ResultMessage->patient_family_mother = $patientFamilyMother;
@@ -1113,6 +1117,7 @@ class SuspectCaseReportController extends Controller
         $hl7ResultMessage->status = 'pending';
         $hl7ResultMessage->save();
 
+<<<<<<< HEAD
         // Log::channel('incoming_hl7')->info('Names:' . $patientNames . PHP_EOL .
         //                                     'familyFather:' . $patientFamilyFather . PHP_EOL .
         //                                     'familyMother:' . $patientFamilyMother . PHP_EOL .
@@ -1120,6 +1125,8 @@ class SuspectCaseReportController extends Controller
         //                                     'pcrSarsCov2:' . $pcrSarsCov2 . PHP_EOL .
         //                                     'sampleAt:' . $sampleAt . PHP_EOL);
 
+=======
+>>>>>>> fc706fffda2b0e2c6d55c43d755cd545adbe2fe2
         if ($pcrSarsCov2 == "Negativo") {
             $pcrSarsCov2 = "negative";
         }
@@ -1185,6 +1192,25 @@ class SuspectCaseReportController extends Controller
             $hl7ResultMessage->update(['status' => 'case_not_found']);
         }
 
+    }
+
+    public function getHl7Errors(Request $request)
+    {
+        $alertId = $request->input('alert_id');
+        $channelName = $request->input('channel_name');
+        $connectorName = $request->input('connector_name');
+        $messageId = $request->input('message_id');
+        $error = $request->input('error');
+        $errorMessage = $request->input('error_message');
+        
+        $hl7ErrorMessage = new Hl7ErrorMessage();
+        $hl7ErrorMessage->alert_id = $alertId;
+        $hl7ErrorMessage->channel_name = $channelName;
+        $hl7ErrorMessage->connector_name = $connectorName;
+        $hl7ErrorMessage->message_id = $messageId;
+        $hl7ErrorMessage->error = $error;
+        $hl7ErrorMessage->error_message = $errorMessage;
+        $hl7ErrorMessage->save();
     }
 
     public function case_chart(Request $request)
