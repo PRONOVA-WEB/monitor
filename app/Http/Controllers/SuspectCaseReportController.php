@@ -1117,16 +1117,6 @@ class SuspectCaseReportController extends Controller
         $hl7ResultMessage->status = 'pending';
         $hl7ResultMessage->save();
 
-<<<<<<< HEAD
-        // Log::channel('incoming_hl7')->info('Names:' . $patientNames . PHP_EOL .
-        //                                     'familyFather:' . $patientFamilyFather . PHP_EOL .
-        //                                     'familyMother:' . $patientFamilyMother . PHP_EOL .
-        //                                     'pcrSarsCov2At:' . $pcrSarsCov2At . PHP_EOL .
-        //                                     'pcrSarsCov2:' . $pcrSarsCov2 . PHP_EOL .
-        //                                     'sampleAt:' . $sampleAt . PHP_EOL);
-
-=======
->>>>>>> fc706fffda2b0e2c6d55c43d755cd545adbe2fe2
         if ($pcrSarsCov2 == "Negativo") {
             $pcrSarsCov2 = "negative";
         }
@@ -1202,7 +1192,7 @@ class SuspectCaseReportController extends Controller
         $messageId = $request->input('message_id');
         $error = $request->input('error');
         $errorMessage = $request->input('error_message');
-        
+
         $hl7ErrorMessage = new Hl7ErrorMessage();
         $hl7ErrorMessage->alert_id = $alertId;
         $hl7ErrorMessage->channel_name = $channelName;
