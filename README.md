@@ -15,7 +15,7 @@
 
 ### Ejecutar en interprete de comandos
 
-- $ git clone https://github.com/cl-ssi/monitor
+- $ git clone https://github.com/PRONOVA-WEB/intranet
 - $ cd monitor
 - $ cp .env.example .env (copy en vez de cp en windows)
 - $ composer install
