@@ -17,7 +17,7 @@ class UserSeeder extends Seeder
         $user->run = "12345678";
         $user->dv = '9';
         $user->name = "Administrador";
-        $user->email = "adiaz@pronova.cl";
+        $user->email = "webmaster@pronova.cl";
         $user->password = bcrypt('admin');
         $user->laboratory_id = 1;
         $user->save();
