@@ -1,4 +1,4 @@
-## Instalación Monitor Esmeralda :ship:
+## Instalación Monitor Covid :ship:
 =======
 
 ### Programas
@@ -15,7 +15,7 @@
 
 ### Ejecutar en interprete de comandos
 
-- $ git clone https://github.com/PRONOVA-WEB/intranet
+- $ git clone https://github.com/PRONOVA-WEB/monitor
 - $ cd monitor
 - $ cp .env.example .env (copy en vez de cp en windows)
 - $ composer install
@@ -24,12 +24,7 @@
 ### Base de datos
 - Editar archivo .env
 
-#### Opción 1. Sqlite (más fácil)
-- DB_CONNECTION=sqlite
-- DB_DATABASE=C:\\\\Users\\\\Atorres\\\\monitor\\\\database\\\\database.sqlite
-- Crear un archivo vacío en monitor\database\database.sqlite con el block de notas por ejemplo
-
-#### Opción 2. MySql editar
+#### MySql editar
 - Configurar en .env los campos de base de datos, empiezan con DB_
 
 ### (Opcional) Agregar el cert.pem para integración con webservice de minsal
