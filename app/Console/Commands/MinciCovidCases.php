@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use App\MinciProducto1Std;
 
 class MinciCovidCases extends Command
 {
@@ -56,7 +57,7 @@ class MinciCovidCases extends Command
         foreach (array_slice($casos1, 1) as $item) {
 
             if($item[5] >= \Carbon\Carbon::now()->subDays(30)->toDateString()) {
-                \App\MinciProducto1Std::create(
+                MinciProducto1Std::create(
                     [
                     'region' => $item[0],
                     'region_code' => $item[1],
