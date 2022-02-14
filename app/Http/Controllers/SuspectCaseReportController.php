@@ -32,6 +32,8 @@ use Illuminate\View\View;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use App\Hl7ErrorMessage;
+use App\MinciProducto1Std;
+use App\MinciProducto5Std;
 
 use App\User;
 
@@ -1762,12 +1764,12 @@ class SuspectCaseReportController extends Controller
     }
 
     public function MinciCovidCasesByCommune() {
-        $cases = \App\MinciProducto1Std::where('date','>=',Carbon::now()->subDays(30)->toDateString())->get();
+        $cases = MinciProducto1Std::where('date','>=',Carbon::now()->subDays(30)->toDateString())->get();
         return view('lab.suspect_cases.reports.minci.covid_cases', compact('cases'));
     }
 
     public function MinciNationalTotals() {
-        $items = \App\MinciProducto5Std::orderBy('date','desc')->limit('19')->get();
+        $items = MinciProducto5Std::orderBy('date','desc')->limit('19')->get();
         return view('lab.suspect_cases.reports.minci.national_totals', compact('items'));
     }
 

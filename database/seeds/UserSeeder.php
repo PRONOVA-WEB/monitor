@@ -2,6 +2,8 @@
 
 use Illuminate\Database\Seeder;
 use App\User;
+use App\Establishment;
+use App\Laboratory;
 use Spatie\Permission\Models\Permission;
 
 class UserSeeder extends Seeder
@@ -24,11 +26,11 @@ class UserSeeder extends Seeder
         $user->givePermissionTo(Permission::all());
 
         //añado establecimientos de la regíon metropolitana
-        $establishments = \App\Establishment::whereIn('commune_id',getCommunes())->pluck('id');
+        $establishments = Establishment::whereIn('commune_id',getCommunes())->pluck('id');
         $user->establishments()->attach($establishments);
 
         //añado un director al primer laboratorio
-        $laboratory = \App\Laboratory::first();
+        $laboratory = Laboratory::first();
         $laboratory->director_id = $user->id;
         $laboratory->save;
     }
