@@ -33,7 +33,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use App\Hl7ErrorMessage;
 use App\MinciProducto1Std;
-use App\MinciProducto5Std;
+use App\MinciProducto5std;
 
 use App\User;
 
