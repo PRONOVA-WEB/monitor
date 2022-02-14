@@ -4,7 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\MinciProducto1Std;
-use App\MinciProducto5Std;
+use App\MinciProducto5std;
 
 class MinciCovidCases extends Command
 {
@@ -87,7 +87,7 @@ class MinciCovidCases extends Command
         foreach (array_slice($casos5, 1) as $item) {
 
             if($item[1] >= \Carbon\Carbon::now()->subDays(3)->toDateString()) {
-                MinciProducto5Std::create(
+                MinciProducto5std::create(
                     [
                     'item' => $item[0],
                     'date' => $item[1],
