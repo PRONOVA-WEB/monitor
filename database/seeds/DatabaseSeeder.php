@@ -26,7 +26,7 @@ class DatabaseSeeder extends Seeder
         $this->call(SettingSeeder::class);
         $this->call(MinciProducto1StdSeeder::class);
 
-        if(env('APP_ENV') == 'testing') {
+        if(!env('APP_PRONOVA')) {
             $this->call(PatientSeeder::class);
             $this->call(DemographicSeeder::class);
             $this->call(SuspectCaseSeeder::class);
