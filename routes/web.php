@@ -95,6 +95,12 @@ Route::prefix('patients')->name('patients.')->middleware('auth')->group(function
         Route::get('delete/{contact_patient}','ContactPatientController@destroy')->name('destroy')->middleware('auth');;
     });
 
+    Route::prefix('fusion')->name('fusion.')->middleware('can:Patient: fusion')->group(function () {
+        Route::get('/', 'PatientController@createFusion')->name('create');
+        Route::post('/show', 'PatientController@showFusion')->name('show');
+        Route::post('/', 'PatientController@doFusion')->name('do');
+    });
+
     Route::prefix('tracings')->name('tracings.')->middleware('auth')->group(function () {
         Route::get('/notifications', 'TracingController@notificationsReport')->name('notifications_report');
         Route::get('/cartoindex', 'TracingController@carToIndex')->name('cartoindex');
@@ -233,6 +239,8 @@ Route::prefix('lab')->name('lab.')->group(function () {
         Route::get('/{suspect_case}/notificationForm','SuspectCaseController@notificationForm')->name('notificationForm')->middleware('auth','can:SuspectCase: admission');
         Route::get('/{suspect_case}/notificationFormSmall','SuspectCaseController@notificationFormSmall')->name('notificationFormSmall')->middleware('auth','can:SuspectCase: admission');
         Route::post('/notificationFormSmallBulk','SuspectCaseController@notificationFormSmallBulk')->name('notificationFormSmallBulk')->middleware('auth','can:SuspectCase: admission');
+        Route::get('/Hl7ResultMessageSuspectCaseAsignation/{hl7ResultMessage}/{suspectCase}','SuspectCaseController@Hl7ResultMessageSuspectCaseAsignation')->name('hl7Result_message_suspectCase_asignation')->middleware('auth');
+        Route::get('/Hl7ResultMessageDismiss/{hl7ResultMessage}','SuspectCaseController@Hl7ResultMessageDismiss')->name('Hl7Result_message_dismiss')->middleware('auth');
 
         Route::get('/index_import_results','SuspectCaseController@index_import_results')->name('index_import_results')->middleware('auth');
         Route::post('/results_import', 'SuspectCaseController@results_import')->name('results_import');
@@ -274,6 +282,9 @@ Route::prefix('lab')->name('lab.')->group(function () {
                 Route::get('national_totals','SuspectCaseReportController@MinciNationalTotals')->name('national_totals')->middleware('auth');
             });
 
+            Route::get('/integrationhetgmonitorpendings','SuspectCaseReportController@integrationHetgMonitorPendings')->name('integration_hetg_monitor_pendings')->middleware('auth');
+            Route::get('/integrationhetgmonitorpendingsDetails/{hl7ResultMessage}','SuspectCaseReportController@integrationHetgMonitorPendingsDetails')->name('integration_hetg_monitor_pendings_details')->middleware('auth');
+            // Route::get('/Hl7ResultMessageSuspectCaseAsignation/{hl7ResultMessage}/{suspectCase}','SuspectCaseReportController@Hl7ResultMessageSuspectCaseAsignation')->name('hl7Result_message_suspectCase_asignation')->middleware('auth');
         });
         Route::prefix('report')->name('report.')->group(function () {
             Route::get('/','SuspectCaseReportController@positives')->name('index')->middleware('auth','can:Report: other');
@@ -515,3 +526,5 @@ Route::prefix('/settings')->as('settings.')->middleware(['auth'])->group(functio
     Route::post('/store_values', [SettingController::class, 'storeValues'])->name('store.values');
     Route::delete('/{setting}/destroy', [SettingController::class, 'destroy'])->name('destroy');
 });
+
+Route::get('/email_queue_test', 'SuspectCaseController@emailQueueTest');

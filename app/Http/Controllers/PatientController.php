@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\SanitaryResidence\AdmissionSurvey;
 use App\Country;
 use App\SuspectCase;
 use App\Patient;
@@ -9,6 +10,7 @@ use App\Demographic;
 use App\Region;
 use App\Commune;
 use App\Establishment;
+use App\Tracing\Tracing;
 use App\Tracing\EventType;
 use App\Tracing\RequestType;
 use App\Tracing\Symptom;
@@ -517,5 +519,70 @@ class PatientController extends Controller
         //echo '<pre>';
         //print_r(json_encode($fhir));
         return response()->json($fhir);
+    }
+
+    public function createFusion()
+    {
+        return view('patients.fusion.create');
+    }
+
+    public function showFusion(Request $request)
+    {
+        $patient1 = Patient::find($request->input('p1_id'));
+        $patient2 = Patient::find($request->input('p2_id'));
+
+        return view('patients.fusion.show', compact('patient1', 'patient2'));
+    }
+
+    public function doFusion(Request $request)
+    {
+        /* Fusion Patient_1 into Patient_2'*/
+
+        // Disable auditing from this point on
+        Patient::disableAuditing();
+        SuspectCase::disableAuditing();
+        Demographic::disableAuditing();
+        Tracing::disableAuditing();
+        AdmissionSurvey::disableAuditing();
+
+        // This operation won't be audited
+        $patient1 = Patient::find($request->input('p1_id'));
+        $patient2 = Patient::find($request->input('p2_id'));
+
+        foreach ($patient1->suspectCases as $sc) {
+            $sc->update(['patient_id' => $patient2->id]);
+        }
+
+        foreach ($patient1->admissionSurvey as $as) {
+            $as->update(['patient_id' => $patient2->id]);
+        }
+
+        foreach ($patient1->audits as $audit) {
+            $audit->update(['auditable_id' => $patient2->id]);
+        }
+
+
+
+
+
+        /* TODO: Pendiente encuestas, booking residencia, signos vitales */
+        if ($patient1->tracing) {
+            $patient1->tracing->delete();
+        }        
+        if ($patient1->demographic) {
+        $patient1->demographic->delete();
+        }
+        $patient1->delete();
+
+        // Re-enable auditing
+        Patient::enableAuditing();
+        SuspectCase::enableAuditing();
+        Demographic::enableAuditing();
+        Tracing::enableAuditing();
+        AdmissionSurvey::enableAuditing();
+
+        session()->flash('success', 'Paciente fusionado exitosamente');
+
+        return redirect()->route('patients.edit', $patient2);
     }
 }

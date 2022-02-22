@@ -31,11 +31,13 @@ use Illuminate\Support\Str;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 use App\Hl7ErrorMessage;
 use App\MinciProducto1Std;
 use App\MinciProducto5std;
 
 use App\User;
+use PDO;
 
 class SuspectCaseReportController extends Controller
 {
@@ -1088,14 +1090,8 @@ class SuspectCaseReportController extends Controller
         return $patients->count();
     }
 
-    /**
-     * En desarrollo. Web service que obtiene data de archivos HL7 enviados por herramienta de integración
-     * Mirth Connect.
-     * @param Request $request
-     */
-    public function getHl7Files(Request $request)
-    {
 
+<<<<<<< HEAD
         $patientIdentifier = $request->input('patient_identifier');
         $patientNames = $request->input('patient_names');
         $patientFamilyFather = $request->input('patient_family_father');
@@ -1204,6 +1200,8 @@ class SuspectCaseReportController extends Controller
         $hl7ErrorMessage->error_message = $errorMessage;
         $hl7ErrorMessage->save();
     }
+=======
+>>>>>>> 6a6caf07f25ac5e7587880204219b333f1089da3
 
     public function case_chart(Request $request)
     {
@@ -1763,6 +1761,7 @@ class SuspectCaseReportController extends Controller
         return view('lab.suspect_cases.reports.all_rapid_tests', compact('rapidtests'));
     }
 
+<<<<<<< HEAD
     public function MinciCovidCasesByCommune() {
         $cases = MinciProducto1Std::where('date','>=',Carbon::now()->subDays(30)->toDateString())->get();
         return view('lab.suspect_cases.reports.minci.covid_cases', compact('cases'));
@@ -1772,5 +1771,137 @@ class SuspectCaseReportController extends Controller
         $items = MinciProducto5Std::orderBy('date','desc')->limit('19')->get();
         return view('lab.suspect_cases.reports.minci.national_totals', compact('items'));
     }
+=======
+    public function integrationHetgMonitorPendings(Request $request)
+    {
+      $status = null;
+      if ($request->status) {
+        $status = $request->status;
+      }else{
+        $status = "case_not_found";
+      }
+
+      // dd($status);
+
+      $hl7ResultMessages = Hl7ResultMessage::whereNotNull('status')
+                                            ->when($status != null, function ($q) use ($status) {
+                                                return $q->where('status',$status)
+                                                ->where('created_at', '>', '2022-02-14 00:00:00');
+                                            })
+                                            ->when($status != "assigned_to_case" && $status != "monitor_error", function ($q) use ($status) {
+                                                return $q->whereNotNull('pdf_file');
+                                            })
+                                            // ->whereNotNull('pdf_file')
+                                            ->orderBy('observation_datetime','DESC')
+                                            ->get();
+
+      return view('lab.suspect_cases.reports.integration_hetg_monitor_pendings',compact('hl7ResultMessages','request'));
+    }
+
+    public function integrationHetgMonitorPendingsDetails(Hl7ResultMessage $hl7ResultMessage, Request $request)
+    {
+
+      $suspectCases = null;
+      $cases = null;
+      if ($request->text != null && $hl7ResultMessage->status == "case_not_found") {
+        $collection = collect(['positivos', 'negativos', 'pendientes', 'rechazados', 'indeterminados']);
+        $filtro = collect([]);
+        $collection->each(function ($item, $key) use ($request, $filtro){
+                    switch ($item) {
+                case "positivos":
+                    $request->get('positivos')=="on"?$filtro->push('positive'):true;
+                    break;
+                case "negativos":
+                    $request->get('negativos')=="on"?$filtro->push('negative'):true;
+                    break;
+                case "pendientes":
+                    $request->get('pendientes')=="on"?$filtro->push('pending'):true;
+                    break;
+                case "rechazados":
+                    $request->get('rechazados')=="on"?$filtro->push('rejected'):true;
+                    break;
+                case "indeterminados":
+                    $request->get('indeterminados')=="on"?$filtro->push('undetermined'):true;
+                    break;
+            }
+        });
+
+        $patients = Patient::getPatientsBySearch($request->get('text'));
+
+         DB::connection()->getPdo()->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
+         $suspectCases = SuspectCase::getCaseByPatient($patients)
+                             ->latest('id')
+                             ->where('laboratory_id',1) //solo laboratorio hospital
+                             ->whereIn('pcr_sars_cov_2',$filtro)
+                             ->whereNotNull('reception_at')
+                             ->paginate(200);
+         DB::connection()->getPdo()->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+      }
+      // dd($suspectCases);
+
+      return view('lab.suspect_cases.reports.integration_hetg_monitor_pendings_details',compact('hl7ResultMessage','request','suspectCases'));
+    }
+
+    // public function Hl7ResultMessageSuspectCaseAsignation(Hl7ResultMessage $hl7ResultMessage, SuspectCase $suspectCase, Request $request)
+    // {
+    //   // if ($hl7ResultMessage->observation_value == "Negativo") {
+    //   //     $pcrSarsCov2 = "negative";
+    //   // }
+    //   // if ($hl7ResultMessage->observation_value == "Positivo") {
+    //   //     $pcrSarsCov2 = "positive";
+    //   // }
+    //   // if ($hl7ResultMessage->observation_value == "Rechazado") {
+    //   //     $pcrSarsCov2 = "rejected";
+    //   // }
+    //   // if ($hl7ResultMessage->observation_value == "Indeterminado") {
+    //   //     $pcrSarsCov2 = "undetermined";
+    //   // }
+    //   //
+    //   // $sucesfulStore = Storage::put('suspect_cases/' . $suspectCase->id . '.pdf' , $hl7ResultMessage->pdf_file);
+    //   //
+    //   // if ($sucesfulStore) {
+    //   //   $suspectCase->pcr_sars_cov_2_at = $hl7ResultMessage->observation_datetime;
+    //   //   $suspectCase->pcr_sars_cov_2 = $pcrSarsCov2;
+    //   //   $suspectCase->hl7_result_message_id = $hl7ResultMessage->id;
+    //   //   $suspectCase->file = 1;
+    //   //   $suspectCase->save();
+    //   //
+    //   //   foreach ($hl7ResultMessage->suspectCases as $key => $suspectCase_item) {
+    //   //     if ($suspectCase_item->id != $suspectCase->id) {
+    //   //       $suspectCase_item->hl7_result_message_id = null;
+    //   //       $suspectCase_item->save();
+    //   //     }
+    //   //   }
+    //   //
+    //   //   $hl7ResultMessage->status = "assigned_to_case";
+    //   //   $hl7ResultMessage->pdf_file = null;
+    //   //   $hl7ResultMessage->save();
+    //   //
+    //   //   //se intenta subir a PNTM
+    //   //   $this->addSuspectCaseResult($suspectCase, $hl7ResultMessage);
+    //   //
+    //   //   session()->flash('success', 'Se asignó muestra ' . $suspectCase->id . " a caso pendiente " . $hl7ResultMessage->id);
+    //   //   return redirect()->route('lab.suspect_cases.reports.integration_hetg_monitor_pendings');
+    //   //
+    //   // }else{
+    //   //   session()->flash('error', "Error al obtener archivo pdf");
+    //   //   return redirect()->route('lab.suspect_cases.reports.integration_hetg_monitor_pendings');
+    //   // }
+    //
+    //   if ($this->addSuspectCaseResult($suspectCase, $hl7ResultMessage)) {
+    //       $hl7ResultMessage->status = "assigned_to_case";
+    //       $hl7ResultMessage->pdf_file = null;
+    //       $hl7ResultMessage->save();
+    //
+    //       session()->flash('success', 'Se asignó muestra ' . $suspectCase->id . " a caso pendiente " . $hl7ResultMessage->id);
+    //       return redirect()->route('lab.suspect_cases.reports.integration_hetg_monitor_pendings');
+    //   }else{
+    //     session()->flash('error', "Error--");
+    //     return redirect()->route('lab.suspect_cases.reports.integration_hetg_monitor_pendings');
+    //   }
+    //
+    //
+    // }
+>>>>>>> 6a6caf07f25ac5e7587880204219b333f1089da3
 
 }
